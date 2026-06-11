@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Nunito", "Inter", sans-serif;
+  
+  --color-brand-red: #FF0013;
+  --color-brand-red-hover: #DB0024;
+  --color-brand-red-pale: #FFF0F0;
+  --color-brand-red-light: #FFE5E5;
+  --color-brand-black: #000000;
+  --color-brand-dark: #121212;
+  --color-brand-gray-1: #2B2B2B;
+  --color-brand-gray-2: #666666;
+  --color-brand-gray-3: #B2B2B2;
+  --color-brand-gray-4: #E5E5E5;
+  --color-brand-gray-5: #F4F4F4;
+  --color-brand-surface: #FAFAFA;
+  --color-brand-surface-warm: #FFF8F8;
+}
+
+/* Custom styles and utilities */
+.brand-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23FF0013' stroke-width='1.6' stroke-opacity='0.18'%3E%3Cpath d='M 50 4 L 63.5 17.5 L 82.5 17.5 L 82.5 36.5 L 96 50 L 82.5 63.5 L 82.5 82.5 L 63.5 82.5 L 50 96 L 36.5 82.5 L 17.5 82.5 L 17.5 63.5 L 4 50 L 17.5 36.5 L 17.5 17.5 L 36.5 17.5 Z'/%3E%3Cpath d='M 50 11 L 61 22 L 77 22 L 77 38 L 88 50 L 77 62 L 77 77 L 61 77 L 50 88 L 39 77 L 23 77 L 23 62 L 12 50 L 23 38 L 23 23 L 38 23 Z'/%3E%3Cpath d='M 41.5 22.5 L 41.5 41.5 L 50 41.5 M 77.5 41.5 L 58.5 41.5 L 58.5 50 M 58.5 77.5 L 58.5 58.5 L 50 58.5 M 22.5 58.5 L 41.5 58.5 L 41.5 50'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100px 100px;
+}
+
+.brand-pattern-subtle {
+  background-image:
+    linear-gradient(135deg, rgba(255, 0, 19, 0.03) 0%, transparent 50%, rgba(255, 0, 19, 0.02) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 100 100'%3E%3Cg fill='none' stroke='%23FF0013' stroke-width='1.2' stroke-opacity='0.07'%3E%3Cpath d='M 50 4 L 63.5 17.5 L 82.5 17.5 L 82.5 36.5 L 96 50 L 82.5 63.5 L 82.5 82.5 L 63.5 82.5 L 50 96 L 36.5 82.5 L 17.5 82.5 L 17.5 63.5 L 4 50 L 17.5 36.5 L 17.5 17.5 L 36.5 17.5 Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 100% 100%, 120px 120px;
+}
+
+.page-surface {
+  background: linear-gradient(180deg, var(--color-brand-surface-warm) 0%, var(--color-brand-surface) 40%, #FFFFFF 100%);
+}
+
+.section-surface {
+  background: linear-gradient(180deg, #FFFFFF 0%, var(--color-brand-surface-warm) 100%);
+}
+
+.section-muted {
+  background: linear-gradient(180deg, var(--color-brand-gray-5) 0%, var(--color-brand-surface-warm) 100%);
+}
+
+.card-elevated {
+  background: #FFFFFF;
+  border: 1px solid var(--color-brand-gray-4);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(255, 0, 19, 0.03);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.card-elevated:hover {
+  border-color: var(--color-brand-red);
+  box-shadow: 0 4px 16px rgba(255, 0, 19, 0.08), 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.brand-pattern-dense {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cg fill='none' stroke='%23FF0013' stroke-width='0.8' stroke-opacity='0.08'%3E%3Cpath d='M12 2 L18 8 L18 16 L12 22 L6 16 L6 8 Z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 40px 40px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Smooth transition for pages */
+.page-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Page-specific red background utility */
+.page-red-bg {
+  background-color: var(--color-brand-red);
+}
+

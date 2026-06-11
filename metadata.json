@@ -1,0 +1,6 @@
+{
+  "name": "Geometri Bandung",
+  "description": "Website Resmi PT Geo Metri Indonesia Kantor Pusat Bandung — Teman Surveyor Indonesia. Jual, sewa, servis, dan kalibrasi alat survey & pemetaan.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
