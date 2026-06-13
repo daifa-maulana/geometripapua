@@ -251,10 +251,13 @@ export default function App() {
           href="https://wa.me/6282262865676?text=Halo%20Geometri%20Bandung,%20saya%20memerlukan%20bantuan%20mengenai%20alat%20survey."
           target="_blank"
           rel="noreferrer"
-          title="Hubungi Kontak Kami"
-          className="w-11 h-11 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full flex items-center justify-center shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer focus:outline-none border border-emerald-400"
+          title="Tanya via WhatsApp"
+          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-3 rounded-full shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer focus:outline-none border border-emerald-400 self-end"
         >
-          <PhoneCall className="w-5 h-5 fill-white" />
+          <PhoneCall className="w-4 h-4 fill-white" />
+          <span className="font-display font-black text-[11px] sm:text-xs tracking-wider uppercase whitespace-nowrap">
+            Tanya via WA (Respon Cepat)
+          </span>
         </a>
       </div>
       )}

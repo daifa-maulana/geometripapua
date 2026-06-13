@@ -305,6 +305,22 @@ export default function Products({ selectedProduct, setSelectedProduct, products
                       </div>
                     )}
 
+                    {/* Trust assurances checkmarks for Bapak-bapak */}
+                    <div className="border border-brand-gray-4 rounded-lg p-3 bg-brand-surface grid grid-cols-2 gap-2 text-[10px] font-black uppercase tracking-wide text-brand-black">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-brand-red text-xs">✓</span> Garansi Resmi 1 Tahun
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-brand-red text-xs">✓</span> Gratis Kalibrasi &amp; Sertifikat
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-brand-red text-xs">✓</span> Gratis Demo Alat ke Lokasi
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-brand-red text-xs">✓</span> Gratis Training Pembelian
+                      </div>
+                    </div>
+
                     {/* Pricing estimation direct action bar */}
                     <div className="bg-brand-red-pale border border-brand-red-light p-4 rounded-lg flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                       <div>
@@ -316,10 +332,10 @@ export default function Products({ selectedProduct, setSelectedProduct, products
 
                       <button
                         onClick={() => handleSendWAOrder(selectedProduct)}
-                        className="bg-brand-red hover:bg-brand-red-hover text-white text-xs font-display font-black uppercase tracking-wider px-5 py-3 rounded-md flex items-center gap-2 shadow cursor-pointer w-full sm:w-auto justify-center"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-display font-black uppercase tracking-wider px-5 py-3.5 rounded-md flex items-center gap-2 shadow cursor-pointer w-full sm:w-auto justify-center border border-emerald-500"
                       >
-                        <Phone className="w-4 h-4" />
-                        Pesan via WhatsApp
+                        <Phone className="w-4 h-4 fill-white" />
+                        Tanya Harga Nett &amp; Stok (WA)
                       </button>
                     </div>
 

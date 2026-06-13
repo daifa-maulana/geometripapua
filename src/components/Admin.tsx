@@ -10,7 +10,7 @@ import {
 } from '../lib/supabaseContent';
 import { 
   Plus, Edit, Trash2, Tag, BookOpen, AlertCircle, RefreshCw, CheckCircle, 
-  ArrowLeft, Search, User, X, Sparkles
+  ArrowLeft, Search, User, X, Sparkles, Save
 } from 'lucide-react';
 
 interface AdminProps {

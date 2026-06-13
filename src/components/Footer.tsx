@@ -1,5 +1,6 @@
 import React from 'react';
 import { Mail, Phone, Globe, MapPin, Youtube, Instagram, Facebook, Linkedin, ArrowRight, Star } from 'lucide-react';
+import brandLogoLight from '../../assets/Logo Bolong-01.png';
 
 interface FooterProps {
   setCurrentPage: (page: string) => void;
@@ -23,23 +24,11 @@ export default function Footer({ setCurrentPage }: FooterProps) {
           {/* Main info company */}
           <div>
             <div className="flex items-center gap-2 mb-4">
-              {/* Authentic Geometri Indonesia corporate logo */}
-              <svg className="w-8 h-8 flex-shrink-0" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                {/* Outer Charcoal Star */}
-                <path d="M 50 2 L 64 16 L 84 16 L 84 36 L 98 50 L 84 64 L 84 84 L 64 84 L 50 98 L 36 84 L 16 84 L 16 64 L 2 50 L 16 36 L 16 16 L 36 16 Z" fill="#231F20" />
-                {/* Inner White Spacer Star */}
-                <path d="M 50 6 L 63 19 L 81 19 L 81 37 L 94 50 L 81 63 L 81 81 L 63 81 L 50 94 L 37 81 L 19 81 L 19 63 L 6 50 L 19 37 L 19 19 L 37 19 Z" fill="#FFFFFF" />
-                {/* Red Star with turbine pattern */}
-                <path d="M 50 11 L 61 22 L 77 22 L 77 38 L 88 50 L 77 62 L 77 77 L 61 77 L 50 88 L 39 77 L 23 77 L 23 62 L 12 50 L 23 38 L 23 23 L 38 23 Z" fill="#FF0013" />
-                {/* White swastika carving strokes */}
-                <path d="M 41.5 22.5 L 41.5 41.5 L 50 41.5" stroke="#FFFFFF" strokeWidth="5.5" strokeLinecap="square" fill="none" />
-                <path d="M 77.5 41.5 L 58.5 41.5 L 58.5 50" stroke="#FFFFFF" strokeWidth="5.5" strokeLinecap="square" fill="none" />
-                <path d="M 58.5 77.5 L 58.5 58.5 L 50 58.5" stroke="#FFFFFF" strokeWidth="5.5" strokeLinecap="square" fill="none" />
-                <path d="M 22.5 58.5 L 41.5 58.5 L 41.5 50" stroke="#FFFFFF" strokeWidth="5.5" strokeLinecap="square" fill="none" />
-              </svg>
-              <span className="font-display font-black text-xl tracking-tight text-white">
-                GEOMETRI <span className="text-brand-red">INDONESIA</span>
-              </span>
+              <img
+                src={brandLogoLight}
+                alt="Geometri Indonesia"
+                className="h-10 w-auto object-contain"
+              />
             </div>
             <div className="text-[10px] bg-brand-red/20 text-brand-red-light border border-brand-red/30 py-1 px-2.5 rounded-full inline-flex items-center gap-1.5 font-bold uppercase tracking-wider mb-4">
               <Star className="w-3 h-3 fill-brand-red text-brand-red" />

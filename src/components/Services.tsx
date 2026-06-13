@@ -124,9 +124,9 @@ export default function Services({ services, siteSettings }: ServicesProps) {
                 href={`https://wa.me/6282262865676?text=Halo%20Geometri%20Bandung,%20saya%20tertarik%20dengan%20layanan%20${encodeURIComponent(activeSvc.title)}`}
                 target="_blank"
                 rel="noreferrer"
-                className="bg-brand-black hover:bg-brand-red text-white font-display font-black text-xs uppercase tracking-widest px-5 py-3 rounded shadow transition-colors"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs uppercase tracking-wider px-5 py-3 border border-emerald-500 rounded shadow transition-colors"
               >
-                Inquire Sekarang &rarr;
+                Konsultasi Layanan via WA
               </a>
             </div>
 

@@ -86,6 +86,37 @@ export default function Home({ setCurrentPage, setSelectedProduct, products, sit
         </div>
       </div>
 
+      {/* 2.5 TRUST BARRIER BANNER FOR BAPAK-BAPAK TARGET MARKET */}
+      <div className="bg-white border-b border-brand-gray-4 py-8 px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10 shadow-xs">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+          
+          <div className="flex flex-col items-center p-4 bg-brand-surface rounded-xl border border-brand-gray-4/70 hover:border-brand-red/30 transition-all shadow-2xs">
+            <span className="text-3xl mb-2" role="img" aria-label="shield">🛡️</span>
+            <span className="font-display font-black text-xs sm:text-sm text-brand-black uppercase tracking-wide">Garansi Resmi 1 Tahun</span>
+            <span className="text-[10px] text-brand-gray-2 mt-1 font-semibold leading-relaxed">Jaminan unit original, aman, &amp; terproteksi resmi</span>
+          </div>
+
+          <div className="flex flex-col items-center p-4 bg-brand-surface rounded-xl border border-brand-gray-4/70 hover:border-brand-red/30 transition-all shadow-2xs">
+            <span className="text-3xl mb-2" role="img" aria-label="balance">⚖️</span>
+            <span className="font-display font-black text-xs sm:text-sm text-brand-black uppercase tracking-wide">Sertifikat Kalibrasi</span>
+            <span className="text-[10px] text-brand-gray-2 mt-1 font-semibold leading-relaxed">Tiap alat diuji kelayakan &amp; akurasi di lab internal</span>
+          </div>
+
+          <div className="flex flex-col items-center p-4 bg-brand-surface rounded-xl border border-brand-gray-4/70 hover:border-brand-red/30 transition-all shadow-2xs">
+            <span className="text-3xl mb-2" role="img" aria-label="graduation cap">🎓</span>
+            <span className="font-display font-black text-xs sm:text-sm text-brand-black uppercase tracking-wide">Gratis Training Alat</span>
+            <span className="text-[10px] text-brand-gray-2 mt-1 font-semibold leading-relaxed">Bimbingan dasar operasional oleh instruktur ahli kami</span>
+          </div>
+
+          <div className="flex flex-col items-center p-4 bg-brand-surface rounded-xl border border-brand-gray-4/70 hover:border-brand-red/30 transition-all shadow-2xs">
+            <span className="text-3xl mb-2" role="img" aria-label="truck">🚚</span>
+            <span className="font-display font-black text-xs sm:text-sm text-brand-black uppercase tracking-wide">COD &amp; Demo Kantor</span>
+            <span className="text-[10px] text-brand-gray-2 mt-1 font-semibold leading-relaxed">Bisa request demo unit langsung ke kantor / proyek Anda</span>
+          </div>
+
+        </div>
+      </div>
+
       {/* 3. FOUR CORE SERVICES SECTION */}
       <section className="py-20 section-muted brand-pattern-subtle px-4 sm:px-6 lg:px-8 xl:px-12 border-b border-brand-gray-4">
         <div className="max-w-7xl mx-auto">
