@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { ArrowUp, PhoneCall } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/Home';
@@ -15,7 +15,7 @@ import Portfolio from './components/Portfolio';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
 import Admin from './components/Admin';
-import { Product, Article, SiteSettings, ServiceDetail, Branch, Project } from './types';
+import { Product, Article, SiteSettings, ServiceDetail, Branch, Project, BrandItem, Partner } from './types';
 import { PRODUCTS, ARTICLES, SERVICES, BRANCHES, PORTFOLIO } from './data';
 import {
   DEFAULT_SITE_SETTINGS,
@@ -35,6 +35,8 @@ export default function App() {
   const [services, setServices] = useState<ServiceDetail[]>(SERVICES);
   const [branches, setBranches] = useState<Branch[]>(BRANCHES);
   const [portfolio, setPortfolio] = useState<Project[]>(PORTFOLIO);
+  const [brands, setBrands] = useState<BrandItem[]>(DEFAULT_SITE_SETTINGS.brands ?? []);
+  const [partners, setPartners] = useState<Partner[]>(DEFAULT_SITE_SETTINGS.partners ?? []);
 
   useEffect(() => {
     let isMounted = true;
@@ -52,8 +54,31 @@ export default function App() {
         setServices(content.services);
         setBranches(content.branches);
         setPortfolio(content.portfolio);
+        setBrands(content.brands);
+        setPartners(content.partners);
       } catch (error) {
         console.error('Failed to initialize app content:', error);
+        // Ensure we still set default content even if Supabase fails
+        const fallback = {
+          products: PRODUCTS,
+          articles: ARTICLES,
+          siteSettings: DEFAULT_SITE_SETTINGS,
+          services: SERVICES,
+          branches: BRANCHES,
+          portfolio: PORTFOLIO,
+          brands: DEFAULT_SITE_SETTINGS.brands ?? [],
+          partners: DEFAULT_SITE_SETTINGS.partners ?? [],
+        };
+        if (isMounted) {
+          setProducts(fallback.products);
+          setArticles(fallback.articles);
+          setSiteSettings(fallback.siteSettings);
+          setServices(fallback.services);
+          setBranches(fallback.branches);
+          setPortfolio(fallback.portfolio);
+          setBrands(fallback.brands);
+          setPartners(fallback.partners);
+        }
       } finally {
         if (isMounted) {
           setIsContentLoading(false);
@@ -66,6 +91,14 @@ export default function App() {
     return () => {
       isMounted = false;
     };
+  }, []);
+
+  // Fallback: Always ensure content is loaded even if async fails
+  useEffect(() => {
+    const fallbackTimer = setTimeout(() => {
+      setIsContentLoading(false);
+    }, 3000); // 3 second timeout
+    return () => clearTimeout(fallbackTimer);
   }, []);
 
   // Initialize page state based on current URL hash and bind hashchange listener
@@ -101,16 +134,16 @@ export default function App() {
   // Update browser document.title dynamically on page change (Genuine Multi-page experience)
   useEffect(() => {
     const titles: Record<string, string> = {
-      home: 'PT Geo Metri Indonesia | Pusat Alat Survey Bandung & Pemetaan Terpercaya',
-      about: 'Tentang Kami - PT Geo Metri Indonesia',
-      service: 'Jasa & Solusi Pengukuran Geospasial - PT Geo Metri Indonesia',
-      product: 'Katalog Alat Survey Bergaransi Resmi - PT Geo Metri Indonesia',
-      portfolio: 'Portofolio Proyek Jasa Lapangan - PT Geo Metri Indonesia',
-      blog: 'Edukasi & Blog Juru Ukur - PT Geo Metri Indonesia',
-      contact: 'Hubungi Juru Hubung & Kantor Pusat - PT Geo Metri Indonesia',
-      admin: 'Sistem Manajemen Konten | Admin PT Geo Metri Indonesia',
+      home: 'Geometri Papua | Cabang Jayapura — Jual, Sewa, Servis & Kalibrasi Alat Survey',
+      about: 'Tentang Kami - Geometri Papua Cabang Jayapura',
+      service: 'Layanan Survey & Geospasial - Geometri Papua',
+      product: 'Katalog Alat Survey Papua Bergaransi - Geometri Papua',
+      portfolio: 'Portofolio Proyek Papua - Geometri Papua',
+      blog: 'Edukasi & Blog Surveyor - Geometri Papua',
+      contact: 'Hubungi Geometri Papua — Cabang Jayapura',
+      admin: 'Sistem Manajemen Konten | Admin Geometri Papua',
     };
-    document.title = titles[currentPage] || 'PT Geo Metri Indonesia | Pusat Alat Survey Bandung & Pemetaan';
+    document.title = titles[currentPage] || 'Geometri Papua | Jual, Sewa, Servis & Kalibrasi Alat Survey';
   }, [currentPage]);
 
   // Setter function passed to components to change page smoothly with hash update
@@ -125,6 +158,14 @@ export default function App() {
       setIsLoaderActive(false);
     }, 600);
     return () => clearTimeout(timer);
+  }, []);
+
+  // Ensure loader is always removed after a maximum timeout
+  useEffect(() => {
+    const maxLoadingTimer = setTimeout(() => {
+      setIsContentLoading(false);
+    }, 5000); // Maximum 5 seconds loading time
+    return () => clearTimeout(maxLoadingTimer);
   }, []);
 
   useEffect(() => {
@@ -161,9 +202,12 @@ export default function App() {
             setCurrentPage={setCurrentPage}
             setSelectedProduct={setSelectedProduct}
             products={products}
+            articles={articles}
             siteSettings={siteSettings}
             services={services}
             branches={branches}
+            brands={brands}
+            partners={partners}
           />
         );
       case 'about':
@@ -186,7 +230,7 @@ export default function App() {
         return <Contact siteSettings={siteSettings} />;
       case 'admin':
         return (
-          <Admin
+        <Admin
             products={products}
             setProducts={setProducts}
             articles={articles}
@@ -199,6 +243,10 @@ export default function App() {
             setBranches={setBranches}
             portfolio={portfolio}
             setPortfolio={setPortfolio}
+            brands={brands}
+            setBrands={setBrands}
+            partners={partners}
+            setPartners={setPartners}
             setCurrentPage={setCurrentPage}
           />
         );
@@ -208,7 +256,7 @@ export default function App() {
             setCurrentPage={setCurrentPage}
             setSelectedProduct={setSelectedProduct}
             products={products}
-            siteSettings={siteSettings}
+            siteSettings={{ ...siteSettings, brands, partners }}
             services={services}
             branches={branches}
           />
@@ -227,16 +275,14 @@ export default function App() {
         >
           <div className="w-14 h-14 border-4 border-brand-gray-4 border-t-brand-red rounded-full animate-spin"></div>
           <span className="font-display font-black text-xs text-brand-gray-2 uppercase tracking-[0.2em] animate-pulse">
-            Memuat Geometri Bandung...
+            Memuat Geometri Papua Cabang Jayapura...
           </span>
         </div>
       )}
 
       {/* 2. PERSISTENT FLOATING QUICK ACTIONS */}
-      {currentPage !== 'admin' && (
-      <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
-        {/* Back to Top */}
-        {showBackToTop && (
+      {currentPage !== 'admin' && showBackToTop && (
+        <div className="fixed bottom-6 right-6 z-40">
           <button
             onClick={scrollToTop}
             title="Kembali ke atas"
@@ -244,22 +290,7 @@ export default function App() {
           >
             <ArrowUp className="w-5 h-5" />
           </button>
-        )}
-
-        {/* Quick WhatsApp Dial */}
-        <a
-          href="https://wa.me/6282262865676?text=Halo%20Geometri%20Bandung,%20saya%20memerlukan%20bantuan%20mengenai%20alat%20survey."
-          target="_blank"
-          rel="noreferrer"
-          title="Tanya via WhatsApp"
-          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-3 rounded-full shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer focus:outline-none border border-emerald-400 self-end"
-        >
-          <PhoneCall className="w-4 h-4 fill-white" />
-          <span className="font-display font-black text-[11px] sm:text-xs tracking-wider uppercase whitespace-nowrap">
-            Tanya via WA (Respon Cepat)
-          </span>
-        </a>
-      </div>
+        </div>
       )}
 
       {/* 3. CORE LAYOUT WRAPPERS */}
@@ -270,7 +301,7 @@ export default function App() {
         </main>
       </div>
 
-      {currentPage !== 'admin' && <Footer setCurrentPage={setCurrentPage} />}
+      {currentPage !== 'admin' && <Footer setCurrentPage={setCurrentPage} siteSettings={siteSettings} />}
     </div>
   );
 }

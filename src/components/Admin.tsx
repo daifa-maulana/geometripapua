@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Product, Article, SiteSettings, ServiceDetail, Branch, Project } from '../types';
+import { Product, Article, SiteSettings, ServiceDetail, Branch, Project, BrandItem, Partner } from '../types';
 import AdminSiteContent from './admin/AdminSiteContent';
 import { supabase } from '../lib/supabase';
 import {
@@ -26,6 +26,10 @@ interface AdminProps {
   setBranches: React.Dispatch<React.SetStateAction<Branch[]>>;
   portfolio: Project[];
   setPortfolio: React.Dispatch<React.SetStateAction<Project[]>>;
+  brands: BrandItem[];
+  setBrands: React.Dispatch<React.SetStateAction<BrandItem[]>>;
+  partners: Partner[];
+  setPartners: React.Dispatch<React.SetStateAction<Partner[]>>;
   setCurrentPage: (page: string) => void;
 }
 
@@ -33,6 +37,7 @@ export default function Admin({
   products, setProducts, articles, setArticles,
   siteSettings, setSiteSettings, services, setServices,
   branches, setBranches, portfolio, setPortfolio,
+  brands, setBrands, partners, setPartners,
   setCurrentPage,
 }: AdminProps) {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -127,6 +132,8 @@ export default function Admin({
 
   const [activeTab, setActiveTab] = useState<'products' | 'articles' | 'site'>('products');
   const [productSearch, setProductSearch] = useState<string>('');
+  const [productFilterBrand, setProductFilterBrand] = useState<string>('');
+  const [productFilterCategory, setProductFilterCategory] = useState<string>('');
   const [articleSearch, setArticleSearch] = useState<string>('');
   
   // Product Form holds
@@ -137,7 +144,6 @@ export default function Admin({
     name: string;
     brand: string;
     category: 'Total Station' | 'GPS / GNSS' | 'Theodolite' | 'Drone' | 'Aksesoris' | 'Waterpass';
-    emoji: string;
     image: string;
     description: string;
     specsText: string;
@@ -148,7 +154,6 @@ export default function Admin({
     name: '',
     brand: 'Topcon',
     category: 'Total Station',
-    emoji: '🔭',
     image: '',
     description: '',
     specsText: '',
@@ -236,7 +241,6 @@ export default function Admin({
       name: '',
       brand: 'Topcon',
       category: 'Total Station',
-      emoji: '🔭',
       image: '',
       description: '',
       specsText: '',
@@ -253,7 +257,6 @@ export default function Admin({
       name: prod.name,
       brand: prod.brand,
       category: prod.category,
-      emoji: prod.emoji || '🔭',
       image: prod.image || '',
       description: prod.description,
       specsText: (prod.specs || []).join('\n'),
@@ -288,7 +291,7 @@ export default function Admin({
       name: prodForm.name.trim(),
       brand: prodForm.brand.trim(),
       category: prodForm.category,
-      emoji: prodForm.emoji.trim(),
+      emoji: '🔭',
       image: prodForm.image.trim() || undefined,
       description: prodForm.description.trim(),
       specs: prodForm.specsText.split('\n').map(s => s.trim()).filter(s => s !== ''),
@@ -410,6 +413,8 @@ export default function Admin({
         setServices(defaults.services);
         setBranches(defaults.branches);
         setPortfolio(defaults.portfolio);
+        setBrands(defaults.brands);
+        setPartners(defaults.partners);
         showNotif('Semua data berhasil dikembalikan ke bawaan awal.');
       } catch {
         showNotif('Gagal reset data bawaan di Supabase.', 'error');
@@ -418,10 +423,25 @@ export default function Admin({
   };
 
   // Filter lists inside admin display
-  const dispProducts = products.filter(p => 
-    p.name.toLowerCase().includes(productSearch.toLowerCase()) ||
-    p.brand.toLowerCase().includes(productSearch.toLowerCase()) ||
-    p.category.toLowerCase().includes(productSearch.toLowerCase())
+  const dispProducts = products.filter(p => {
+    const matchSearch = 
+      p.name.toLowerCase().includes(productSearch.toLowerCase()) ||
+      p.brand.toLowerCase().includes(productSearch.toLowerCase()) ||
+      p.category.toLowerCase().includes(productSearch.toLowerCase());
+    const matchBrand = !productFilterBrand || p.brand.toLowerCase() === productFilterBrand.toLowerCase();
+    const matchCategory = !productFilterCategory || p.category.toLowerCase() === productFilterCategory.toLowerCase();
+    return matchSearch && matchBrand && matchCategory;
+  });
+
+  // Get unique brands and categories for filters
+  const uniqueBrands = useMemo(() => 
+    Array.from(new Set(products.map(p => p.brand))).sort(),
+    [products]
+  );
+
+  const uniqueCategories = useMemo(() => 
+    ['Total Station', 'GPS / GNSS', 'Theodolite', 'Drone', 'Waterpass', 'Aksesoris'],
+    []
   );
 
   const dispArticles = articles.filter(a => 
@@ -711,16 +731,40 @@ export default function Admin({
         {activeTab === 'products' && (
           <div className="space-y-6">
             
-            {/* Search Input Filter for Administrator */}
-            <div className="relative max-w-md text-left">
-              <input
-                type="text"
-                placeholder="Cari produk berdasarkan nama, brand, atau kategori..."
-                value={productSearch}
-                onChange={(e) => setProductSearch(e.target.value)}
-                className="w-full bg-white border border-brand-gray-4 p-3 pl-11 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red text-brand-gray-1 font-semibold"
-              />
-              <Search className="w-4.5 h-4.5 text-brand-gray-3 absolute left-4 top-3.5" />
+            {/* Search and Filter Inputs for Administrator */}
+            <div className="flex flex-col sm:flex-row gap-4 items-start">
+              <div className="relative max-w-md flex-1 text-left">
+                <input
+                  type="text"
+                  placeholder="Cari produk berdasarkan nama, brand, atau kategori..."
+                  value={productSearch}
+                  onChange={(e) => setProductSearch(e.target.value)}
+                  className="w-full bg-white border border-brand-gray-4 p-3 pl-11 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red text-brand-gray-1 font-semibold"
+                />
+                <Search className="w-4.5 h-4.5 text-brand-gray-3 absolute left-4 top-3.5" />
+              </div>
+              <div className="flex gap-3">
+                <select
+                  value={productFilterBrand}
+                  onChange={(e) => setProductFilterBrand(e.target.value)}
+                  className="bg-white border border-brand-gray-4 p-3 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red text-brand-gray-1 font-semibold cursor-pointer"
+                >
+                  <option value="">Semua Brand</option>
+                  {uniqueBrands.map(brand => (
+                    <option key={brand} value={brand}>{brand}</option>
+                  ))}
+                </select>
+                <select
+                  value={productFilterCategory}
+                  onChange={(e) => setProductFilterCategory(e.target.value)}
+                  className="bg-white border border-brand-gray-4 p-3 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red text-brand-gray-1 font-semibold cursor-pointer"
+                >
+                  <option value="">Semua Kategori</option>
+                  {uniqueCategories.map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             {/* List Table container */}
@@ -798,6 +842,10 @@ export default function Admin({
             setBranches={setBranches}
             portfolio={portfolio}
             setPortfolio={setPortfolio}
+            brands={brands}
+            setBrands={setBrands}
+            partners={partners}
+            setPartners={setPartners}
             showNotif={showNotif}
           />
         )}
@@ -919,49 +967,39 @@ export default function Admin({
                   </div>
                   <div>
                     <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider mb-1">Brand / Pabrikan *</label>
-                    <select
+                    <input 
+                      type="text" 
+                      required
+                      list="brandList"
+                      placeholder="Contoh: Topcon, Sokkia, Leica, Trimble, DJI, dll"
                       value={prodForm.brand}
                       onChange={e => setProdForm({...prodForm, brand: e.target.value})}
                       className="w-full bg-brand-gray-5 border border-brand-gray-4 p-3 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red font-semibold text-brand-black"
-                    >
-                      <option value="Topcon">Topcon (Jepang)</option>
-                      <option value="Sokkia">Sokkia (Jepang)</option>
-                      <option value="Leica">Leica (Swiss)</option>
-                      <option value="Trimble">Trimble (Amerika Serikat)</option>
-                      <option value="Nikon">Nikon (Jepang)</option>
-                      <option value="Spectra">Spectra (Amerika Serikat)</option>
-                      <option value="DJI Enterprise">DJI Enterprise (Global)</option>
-                      <option value="Garmin">Garmin (Global)</option>
-                      <option value="Hi-Target">Hi-Target (Global)</option>
-                    </select>
+                    />
+                    <datalist id="brandList">
+                      {uniqueBrands.map(brand => (
+                        <option key={brand} value={brand} />
+                      ))}
+                    </datalist>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider mb-1">Kategori Alat</label>
-                    <select
+                    <input 
+                      type="text"
+                      list="categoryList"
+                      placeholder="Contoh: Total Station, GPS / GNSS, dll"
                       value={prodForm.category}
                       onChange={e => setProdForm({...prodForm, category: e.target.value as any})}
                       className="w-full bg-brand-gray-5 border border-brand-gray-4 p-3 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red font-semibold text-brand-black"
-                    >
-                      <option value="Total Station">Total Station</option>
-                      <option value="GPS / GNSS">GPS / GNSS</option>
-                      <option value="Theodolite">Theodolite</option>
-                      <option value="Drone">Drone</option>
-                      <option value="Waterpass">Waterpass</option>
-                      <option value="Aksesoris">Aksesoris</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider mb-1">Emoji Cover</label>
-                    <input 
-                      type="text" 
-                      placeholder="🔭 atau 📡"
-                      value={prodForm.emoji}
-                      onChange={e => setProdForm({...prodForm, emoji: e.target.value})}
-                      className="w-full bg-brand-gray-5 border border-brand-gray-4 p-3 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red font-semibold text-brand-black"
                     />
+                    <datalist id="categoryList">
+                      {uniqueCategories.map(cat => (
+                        <option key={cat} value={cat} />
+                      ))}
+                    </datalist>
                   </div>
                   <div>
                     <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider mb-1">Kisaran Harga / Info</label>

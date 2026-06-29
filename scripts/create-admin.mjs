@@ -7,7 +7,7 @@ dotenv.config();
 const SUPABASE_URL = process.env.VITE_SUPABASE_URL;
 const SERVICE_ROLE_KEY = process.env.VITE_SUPABASE_SERVICE_ROLE_KEY;
 const ANON_KEY = process.env.VITE_SUPABASE_ANON_KEY;
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@geometri-bandung.id';
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@geometri-papua.id';
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'Admin12345!';
 
 if (!SUPABASE_URL) {

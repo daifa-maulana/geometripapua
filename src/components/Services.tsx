@@ -86,7 +86,7 @@ export default function Services({ services, siteSettings }: ServicesProps) {
               </div>
 
               {activeSvc.image && (
-                <div className="w-full h-48 sm:h-60 rounded-xl overflow-hidden border border-brand-gray-4 bg-brand-gray-5 shadow-sm">
+                <div className="w-full h-64 sm:h-80 rounded-xl overflow-hidden border border-brand-gray-4 bg-brand-gray-5 shadow-sm">
                   <img 
                     src={activeSvc.image} 
                     alt={activeSvc.title} 
@@ -121,7 +121,7 @@ export default function Services({ services, siteSettings }: ServicesProps) {
                 Mekanisme Garansi Servis Prioritas
               </span>
               <a
-                href={`https://wa.me/6282262865676?text=Halo%20Geometri%20Bandung,%20saya%20tertarik%20dengan%20layanan%20${encodeURIComponent(activeSvc.title)}`}
+                href={`https://wa.me/6285135716279?text=Halo%20Geometri%20Papua,%20saya%20tertarik%20dengan%20layanan%20${encodeURIComponent(activeSvc.title)}`}
                 target="_blank"
                 rel="noreferrer"
                 className="bg-emerald-600 hover:bg-emerald-700 text-white font-display font-black text-xs uppercase tracking-wider px-5 py-3 border border-emerald-500 rounded shadow transition-colors"

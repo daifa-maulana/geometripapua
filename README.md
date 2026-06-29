@@ -1,4 +1,4 @@
-# Geometri Bandung Web App
+# Geometri Papua Web App
 
 ## Prerequisites
 

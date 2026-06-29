@@ -13,7 +13,7 @@ function BranchImage({ src, name, type = 'thumbnail' }: { src?: string; name: st
   if (hasError || !src) {
     if (type === 'thumbnail') {
       return (
-        <div className="w-14 h-14 rounded-md overflow-hidden bg-gradient-to-br from-brand-gray-5 to-brand-gray-4 shrink-0 shadow-xs border border-brand-gray-4/40 flex flex-col items-center justify-center p-1 relative text-center leading-none">
+        <div className="w-16 h-16 rounded-md overflow-hidden bg-gradient-to-br from-brand-gray-5 to-brand-gray-4 shrink-0 shadow-xs border border-brand-gray-4/40 flex flex-col items-center justify-center p-1 relative text-center leading-none">
           <Building className="w-4 h-4 text-brand-red opacity-80 mb-0.5" />
           <span className="text-[7px] font-black tracking-tighter text-brand-black uppercase block max-w-full truncate">
             {name}
@@ -22,7 +22,7 @@ function BranchImage({ src, name, type = 'thumbnail' }: { src?: string; name: st
       );
     } else {
       return (
-        <div className="w-full h-44 rounded-lg overflow-hidden border border-brand-gray-4 bg-gradient-to-br from-brand-gray-5 via-brand-gray-4 to-brand-gray-3/30 relative select-none flex flex-col items-center justify-center p-6 text-center shadow-inner">
+        <div className="w-full h-56 rounded-lg overflow-hidden border border-brand-gray-4 bg-gradient-to-br from-brand-gray-5 via-brand-gray-4 to-brand-gray-3/30 relative select-none flex flex-col items-center justify-center p-6 text-center shadow-inner">
           <div className="p-3 bg-brand-red-pale border border-brand-red-light rounded-full text-brand-red mb-2 shadow-xs">
             <Building className="w-6 h-6 animate-pulse" />
           </div>
@@ -41,7 +41,7 @@ function BranchImage({ src, name, type = 'thumbnail' }: { src?: string; name: st
   }
 
   return (
-    <div className={type === 'thumbnail' ? "w-14 h-14 rounded-md overflow-hidden bg-brand-gray-4 shrink-0 shadow-xs border border-brand-gray-4/40 relative" : "w-full h-44 rounded-lg overflow-hidden border border-brand-gray-4 bg-brand-gray-5 relative select-none"}>
+    <div className={type === 'thumbnail' ? "w-16 h-16 rounded-md overflow-hidden bg-brand-gray-4 shrink-0 shadow-xs border border-brand-gray-4/40 relative" : "w-full h-56 rounded-lg overflow-hidden border border-brand-gray-4 bg-brand-gray-5 relative select-none"}>
       <img
         src={src}
         alt={`Geometri ${name}`}
@@ -63,7 +63,7 @@ export default function About({ siteSettings, branches }: AboutProps) {
   const [selectedBranch, setSelectedBranch] = useState<Branch>(branches[0]);
   const [regionFilter, setRegionFilter] = useState<string>('Semua');
 
-  const regions = ['Semua', 'Jawa Barat', 'DKI Jakarta', 'Jawa Timur', 'Jawa Tengah', 'Sumatera', 'Sulawesi', 'Kalimantan', 'Bali'];
+  const regions = ['Semua', 'Papua', 'Jawa Barat', 'DKI Jakarta', 'Jawa Timur', 'Jawa Tengah', 'DIY', 'Sumatera', 'Sulawesi', 'Kalimantan', 'Bali'];
 
   const filteredBranches = branches.filter(b => {
     if (regionFilter === 'Semua') return true;
@@ -106,7 +106,7 @@ export default function About({ siteSettings, branches }: AboutProps) {
               {about.companyDescription}
             </p>
             <p className="text-sm text-brand-gray-1 leading-relaxed">
-              Dengan filosofi dasar <strong>#TemanSurveyor</strong>, kami tidak sekadar melakukan transaksi jual-beli instrumen industri dambaan Anda, namun mendampingi penuh siklus hidup peralatan vital tersebut dari awal kalibrasi presisi di lab hingga pelatihan dasar pengoperasian cuma-cuma juru ukur Anda di lapangan.
+              Dengan filosofi dasar <strong>#TemanSurveyor</strong>, Cabang Papua hadir khusus untuk memenuhi kebutuhan juru ukur, kontraktor, dan instansi pemerintah di wilayah Papua — dari kalibrasi di lab hingga pelatihan pengoperasian alat gratis di lapangan.
             </p>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
@@ -122,7 +122,7 @@ export default function About({ siteSettings, branches }: AboutProps) {
                 <div className="p-1 bg-brand-red text-white rounded mt-0.5"><Check className="w-4 h-4" /></div>
                 <div>
                   <h4 className="font-display font-extrabold text-[13px] text-brand-black uppercase">Standardisasi ISO</h4>
-                  <p className="text-xs text-brand-gray-2">Setiap alur penanganan servis instrumen di lab Bandung melalui uji kalibrasi ISO 17025.</p>
+                  <p className="text-xs text-brand-gray-2">Setiap alur penanganan servis instrumen di lab Papua melalui uji kalibrasi ISO 17025.</p>
                 </div>
               </div>
             </div>
@@ -162,7 +162,7 @@ export default function About({ siteSettings, branches }: AboutProps) {
               Jaringan {branches.length} Kantor Cabang Resmi
             </h2>
             <p className="text-xs text-brand-gray-2 leading-relaxed">
-              Silakan pilih wilayah dan klik kartu cabang untuk melihat info kontak serta alamat operasional legal resmi instansi kami.
+              Kami bagian dari jaringan nasional PT Geo Metri Indonesia. Pilih cabang terdekat atau langsung kunjungi Cabang Papua (Jayapura) sebagai kantor utama layanan kami di wilayah timur Indonesia.
             </p>
           </div>
 
@@ -237,7 +237,7 @@ export default function About({ siteSettings, branches }: AboutProps) {
                   </div>
                   {selectedBranch.isHQ && (
                     <span className="bg-brand-red text-white text-[10px] font-black tracking-wider px-3 py-1 rounded select-none">
-                      KANTOR PUSAT UTAMA
+                      CABANG UTAMA
                     </span>
                   )}
                 </div>
@@ -264,7 +264,7 @@ export default function About({ siteSettings, branches }: AboutProps) {
                     <div>
                       <strong className="text-brand-black block mb-1 font-extrabold uppercase text-[10px] tracking-wider text-brand-gray-2">Jam Kerja Cabang:</strong>
                       <p className="text-brand-gray-1 p-3 bg-brand-gray-5 rounded border border-brand-gray-4">
-                        Senin - Sabtu: 08:30 - 17:00 WIB
+                        Senin - Sabtu: 08:30 - 17:00 WIT
                       </p>
                     </div>
                   </div>
@@ -277,7 +277,7 @@ export default function About({ siteSettings, branches }: AboutProps) {
                 </span>
                 
                 <a
-                  href={`https://wa.me/6282262865676?text=Halo%20Geometri%20${selectedBranch.name},%20saya%20ingin%20berkonsultasi%20mengenai%20alat%20survey.`}
+                  href={`https://wa.me/6285135716279?text=Halo%20Geometri%20${selectedBranch.name},%20saya%20ingin%20berkonsultasi%20mengenai%20alat%20survey.`}
                   target="_blank"
                   rel="noreferrer"
                   className="bg-brand-red hover:bg-brand-red-hover text-white px-5 py-2.5 rounded text-xs font-display font-extrabold uppercase tracking-wide flex items-center gap-1.5 shadow"

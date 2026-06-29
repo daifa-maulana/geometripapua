@@ -31,7 +31,7 @@ export default function Contact({ siteSettings }: ContactProps) {
 
     const companyPart = formData.company ? ` dari instansi/perusahaan *${formData.company}*` : '';
     const formattedMsg = 
-      `Halo Geometri Bandung, saya *${formData.name}*${companyPart}. \n` +
+      `Halo Geometri Papua, saya *${formData.name}*${companyPart}. \n` +
       `Saya ingin mengirimkan pertanyaan mengenai layanan *${formData.topic}*.\n\n` +
       `*Detail Pertanyaan / Kebutuhan Alat:* \n` +
       `_"${formData.message}"_\n\n` +
@@ -64,7 +64,7 @@ export default function Contact({ siteSettings }: ContactProps) {
           {/* Left Block physical items */}
           <div className="lg:col-span-5 space-y-6">
             <h2 className="font-display font-black text-xl text-brand-black uppercase tracking-wide">
-              Kantor Pusat Geometri Bandung
+              Kontak Utama Cabang Papua
             </h2>
             <p className="text-xs text-brand-gray-2 leading-relaxed">
               Anda dipersilakan berkunjung langsung guna melakukan uji coba unit (demo unit), menyerahkan registrasi instrumen untuk kalibrasi, maupun mencetak tagihan penawaran.
@@ -76,7 +76,7 @@ export default function Contact({ siteSettings }: ContactProps) {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <strong className="text-brand-gray-2 block uppercase text-[10px] tracking-wide font-black">Alamat Kantor Pusat:</strong>
+                  <strong className="text-brand-gray-2 block uppercase text-[10px] tracking-wide font-black">Alamat Cabang:</strong>
                   <span className="text-brand-black font-semibold">{contact.address}</span>
                 </div>
               </a>
@@ -114,7 +114,7 @@ export default function Contact({ siteSettings }: ContactProps) {
 
             <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-[11px] text-emerald-800 leading-relaxed flex gap-2.5 items-start">
               <CheckCircle className="w-4 h-4 text-emerald-600 flex-shrink-0 mt-0.5" />
-              <span>Tim kami berkantor secara fisik dari <strong>Senin sampai Sabtu (08:30 - 17:00 WIB)</strong>. Diluar jam kerja tersebut, sapaan chat WhatsApp Anda tetap ditangani oleh asisten siaga AI kustom kami.</span>
+              <span>Tim kami berkantor secara fisik dari <strong>Senin sampai Sabtu (08:30 - 17:00 WIT)</strong>. Diluar jam kerja tersebut, sapaan chat WhatsApp Anda tetap ditangani oleh asisten siaga AI kustom kami.</span>
             </div>
           </div>
 
@@ -126,13 +126,13 @@ export default function Contact({ siteSettings }: ContactProps) {
               <h3 className="font-display font-black text-lg text-brand-black uppercase">
                 Kirim Formulir Inkuiri Lapangan
               </h3>
-              <p className="text-[11px] text-brand-gray-2 leading-none font-semibold">Pre-filled template direct chat ke admin sales representatif Bandung</p>
+              <p className="text-[11px] text-brand-gray-2 leading-none font-semibold">Pre-filled template direct chat ke admin sales representatif Papua</p>
             </div>
 
             {submitted && (
               <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-lg mb-6 flex gap-2 items-center">
                 <CheckCircle className="w-4.5 h-4.5 text-emerald-600 flex-shrink-0" />
-                <span>Terima kasih! Formulir Anda telah disusun dan diarahkan langsung ke WhatsApp utama Geometri Bandung.</span>
+                <span>Terima kasih! Formulir Anda telah disusun dan diarahkan langsung ke WhatsApp utama Geometri Papua.</span>
               </div>
             )}
 
@@ -159,7 +159,7 @@ export default function Contact({ siteSettings }: ContactProps) {
                     name="company"
                     value={formData.company}
                     onChange={handleChange}
-                    placeholder="Contoh: PT Adhi Karya Bandung"
+                    placeholder="Contoh: PT Adhi Karya Jayapura"
                     className="w-full bg-brand-gray-5 border border-brand-gray-4 p-3 rounded focus:border-brand-red focus:bg-white focus:outline-none"
                   />
                 </div>
@@ -175,7 +175,7 @@ export default function Contact({ siteSettings }: ContactProps) {
                 >
                   <option value="Pembelian Alat">Pembelian Alat Survey (Baru)</option>
                   <option value="Sewa / Rental">Sewa / Rental Alat Survey</option>
-                  <option value="Servis & Kalibrasi Alat">Servis &amp; Kalibrasi Lab Bandung</option>
+                  <option value="Servis & Kalibrasi Alat">Servis &amp; Kalibrasi Lab Papua</option>
                   <option value="Jasa Pemetaan">Jasa Mapping / Foto Udara Drone</option>
                   <option value="Konsultasi Umum">Konsultasi Umum #TemanSurveyor</option>
                 </select>
@@ -211,10 +211,10 @@ export default function Contact({ siteSettings }: ContactProps) {
         {/* 3. NATIVE INTEGRATION GOOGLE MAPS EMBED IFRAME */}
         <section className="space-y-4 text-left">
           <h3 className="font-display font-black text-xl text-brand-black uppercase">
-            Letak Koordinat Kantor Pusat Bandung
+            Letak Koordinat Cabang Papua (Jayapura)
           </h3>
           <p className="text-xs text-brand-gray-2 leading-relaxed">
-            Peta referensi letak jalan Libra III Batununggal. Sesuai navigasi GPS maupun Google Maps Mobile, Anda dapat mengetik kata kunci penunjuk arah pencarian <strong>"Geometri Bandung"</strong>.
+            Peta referensi letak jalan Kakatua Wai Mhorock Abepura. Sesuai navigasi GPS maupun Google Maps Mobile, Anda dapat mengetik kata kunci penunjuk arah pencarian <strong>"Geometri Papua"</strong>.
           </p>
 
           <div className="border border-brand-gray-3 rounded-2xl overflow-hidden shadow-md">
@@ -225,7 +225,7 @@ export default function Contact({ siteSettings }: ContactProps) {
               style={{ border: 0, display: 'block' }}
               allowFullScreen={true}
               loading="lazy"
-              title="Geometri Bandung - Jl. Libra III No.14B Batununggal"
+              title="Geometri Papua - Jl. Kakatua No.Blok 6 Wai Mhorock Abepura"
             ></iframe>
           </div>
         </section>

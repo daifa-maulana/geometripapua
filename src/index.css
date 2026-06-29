@@ -88,3 +88,18 @@
   background-color: var(--color-brand-red);
 }
 
+/* Infinite marquee (logo slider) */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee linear infinite;
+  will-change: transform;
+}
+
+/* Pause ALL logos when hovering the container */
+.marquee-container:hover .animate-marquee {
+  animation-play-state: paused;
+}

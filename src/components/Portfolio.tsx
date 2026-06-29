@@ -58,7 +58,7 @@ export default function Portfolio({ portfolio, siteSettings }: PortfolioProps) {
             >
               <div className="space-y-4">
                 {p.image && (
-                  <div className="w-full h-36 rounded-lg overflow-hidden border border-brand-gray-4">
+                  <div className="w-full h-52 rounded-lg overflow-hidden border border-brand-gray-4">
                     <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
                   </div>
                 )}

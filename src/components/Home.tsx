@@ -1,60 +1,35 @@
 import React from 'react';
-import { ArrowUpRight, MapPin, Star, ShieldCheck, Zap, HeartHandshake, Eye, Award, Phone } from 'lucide-react';
-import { PRODUCTS, BRANDS } from '../data';
-import { BrandLogoRenderer } from './BrandLogos';
-import { Product, SiteSettings, ServiceDetail, Branch } from '../types';
+import { ArrowUpRight, MapPin, ShieldCheck, Zap, Eye, Award, Globe } from 'lucide-react';
+import { ARTICLES } from '../data';
+import { Article, SiteSettings, ServiceDetail, Branch, BrandItem, Product, Partner } from '../types';
 import { HeroSection } from './blocks/hero-section-6';
 
-const CATEGORY_IMAGES: Record<string, string> = {
-  'Total Station': 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800',
-  'GPS / GNSS': 'https://images.unsplash.com/photo-1580828343064-fde4fc206bc6?w=800',
-  'Theodolite': 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800',
-  'Drone': 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=800',
-  'Waterpass': 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800',
-  'Aksesoris': 'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800'
+const ARTICLE_FALLBACK_IMAGES: Record<string, string> = {
+  'Tips': 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=800',
+  'Teknologi': 'https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=800',
+  'Edukasi': 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800',
+  'Produk': 'https://images.unsplash.com/photo-1535813547-99c456a41d4a?w=800',
 };
 
 interface HomeProps {
   setCurrentPage: (page: string) => void;
-  setSelectedProduct: (product: Product | null) => void;
+  setSelectedProduct?: (product: Product | null) => void;
   products?: Product[];
+  articles?: Article[];
   siteSettings: SiteSettings;
   services: ServiceDetail[];
   branches: Branch[];
+  brands?: BrandItem[];
+  partners?: Partner[];
 }
 
-function BrandCardItem({ br, setCurrentPage }: { br: typeof BRANDS[0]; setCurrentPage: (page: string) => void }) {
-  return (
-    <div 
-      className="bg-white border border-brand-gray-4 p-5 rounded-lg flex flex-col items-center justify-between h-40 group hover:border-brand-red hover:shadow-md transition-all cursor-pointer"
-      onClick={() => setCurrentPage('product')}
-    >
-      <div className="w-full h-20 flex items-center justify-center p-3 bg-brand-gray-5 group-hover:bg-brand-gray-5/20 rounded-md transition-colors overflow-hidden relative">
-        <BrandLogoRenderer name={br.name} />
-      </div>
-      <div className="text-center mt-2.5">
-        <span className="block font-display font-black text-xs text-brand-black uppercase tracking-wider group-hover:text-brand-red transition-colors">
-          {br.name}
-        </span>
-        <span className="block text-[8px] uppercase font-bold tracking-widest text-brand-gray-2 mt-0.5">
-          {br.origin}
-        </span>
-      </div>
-    </div>
-  );
-}
-
-export default function Home({ setCurrentPage, setSelectedProduct, products, siteSettings, services, branches }: HomeProps) {
+export default function Home({ setCurrentPage, articles, siteSettings, services, branches, brands, partners }: HomeProps) {
   const { hero, home } = siteSettings;
+  const displayBrands = brands || siteSettings.brands || [];
+  const displayPartners = partners || siteSettings.partners || [];
 
-  const handleViewProduct = (product: Product) => {
-    setSelectedProduct(product);
-    setCurrentPage('product');
-  };
-
-  const displayProducts = products && products.length > 0 ? products : PRODUCTS;
-  const featuredProducts = displayProducts.slice(0, 4);
-  const tickerItems = [...home.tickerItems, ...home.tickerItems];
+  const displayArticles = articles && articles.length > 0 ? articles : ARTICLES;
+  const latestArticles = displayArticles.slice(0, 3);
 
   return (
     <div className="w-full relative page-enter page-enter-active page-red-bg">
@@ -64,58 +39,9 @@ export default function Home({ setCurrentPage, setSelectedProduct, products, sit
 
 
 
-      {/* 2. INFINITE TICKER MARQUEE */}
-      <div className="bg-brand-red py-4 overflow-hidden border-y border-brand-red-hover select-none shadow-inner relative z-20">
-        <div className="flex whitespace-nowrap gap-12 font-display text-sm font-extrabold uppercase tracking-wider text-white">
-          <div className="animate-[mq_40s_linear_infinite] flex items-center gap-12 flex-shrink-0">
-            {tickerItems.map((txt, index) => (
-              <span key={index} className="flex items-center gap-4">
-                <span>{txt}</span>
-                <span className="w-2 h-2 bg-white/40 rounded-full"></span>
-              </span>
-            ))}
-          </div>
-          <div className="animate-[mq_40s_linear_infinite] flex items-center gap-12 flex-shrink-0" aria-hidden="true">
-            {tickerItems.map((txt, index) => (
-              <span key={index} className="flex items-center gap-4">
-                <span>{txt}</span>
-                <span className="w-2 h-2 bg-white/40 rounded-full"></span>
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+      {/* INFINITE TICKER MARQUEE - REMOVED */}
 
-      {/* 2.5 TRUST BARRIER BANNER FOR BAPAK-BAPAK TARGET MARKET */}
-      <div className="bg-white border-b border-brand-gray-4 py-8 px-4 sm:px-6 lg:px-8 xl:px-12 relative z-10 shadow-xs">
-        <div className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-          
-          <div className="flex flex-col items-center p-4 bg-brand-surface rounded-xl border border-brand-gray-4/70 hover:border-brand-red/30 transition-all shadow-2xs">
-            <span className="text-3xl mb-2" role="img" aria-label="shield">🛡️</span>
-            <span className="font-display font-black text-xs sm:text-sm text-brand-black uppercase tracking-wide">Garansi Resmi 1 Tahun</span>
-            <span className="text-[10px] text-brand-gray-2 mt-1 font-semibold leading-relaxed">Jaminan unit original, aman, &amp; terproteksi resmi</span>
-          </div>
-
-          <div className="flex flex-col items-center p-4 bg-brand-surface rounded-xl border border-brand-gray-4/70 hover:border-brand-red/30 transition-all shadow-2xs">
-            <span className="text-3xl mb-2" role="img" aria-label="balance">⚖️</span>
-            <span className="font-display font-black text-xs sm:text-sm text-brand-black uppercase tracking-wide">Sertifikat Kalibrasi</span>
-            <span className="text-[10px] text-brand-gray-2 mt-1 font-semibold leading-relaxed">Tiap alat diuji kelayakan &amp; akurasi di lab internal</span>
-          </div>
-
-          <div className="flex flex-col items-center p-4 bg-brand-surface rounded-xl border border-brand-gray-4/70 hover:border-brand-red/30 transition-all shadow-2xs">
-            <span className="text-3xl mb-2" role="img" aria-label="graduation cap">🎓</span>
-            <span className="font-display font-black text-xs sm:text-sm text-brand-black uppercase tracking-wide">Gratis Training Alat</span>
-            <span className="text-[10px] text-brand-gray-2 mt-1 font-semibold leading-relaxed">Bimbingan dasar operasional oleh instruktur ahli kami</span>
-          </div>
-
-          <div className="flex flex-col items-center p-4 bg-brand-surface rounded-xl border border-brand-gray-4/70 hover:border-brand-red/30 transition-all shadow-2xs">
-            <span className="text-3xl mb-2" role="img" aria-label="truck">🚚</span>
-            <span className="font-display font-black text-xs sm:text-sm text-brand-black uppercase tracking-wide">COD &amp; Demo Kantor</span>
-            <span className="text-[10px] text-brand-gray-2 mt-1 font-semibold leading-relaxed">Bisa request demo unit langsung ke kantor / proyek Anda</span>
-          </div>
-
-        </div>
-      </div>
+      {/* 2.5 TRUST BARRIER BANNER FOR BAPAK-BAPAK TARGET MARKET - REMOVED */}
 
       {/* 3. FOUR CORE SERVICES SECTION */}
       <section className="py-20 section-muted brand-pattern-subtle px-4 sm:px-6 lg:px-8 xl:px-12 border-b border-brand-gray-4">
@@ -144,12 +70,12 @@ export default function Home({ setCurrentPage, setSelectedProduct, products, sit
                 </span>
 
                 <div>
-                  <div className="h-40 w-full rounded-lg overflow-hidden border border-brand-gray-4 bg-brand-gray-5 mb-5 relative select-none">
+                  <div className="h-64 w-full rounded-lg overflow-hidden border border-brand-gray-4 bg-brand-gray-5 mb-5 relative select-none">
                     {svc.image ? (
                       <img 
                         src={svc.image} 
                         alt={svc.title} 
-                        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-300"
                         referrerPolicy="no-referrer"
                       />
                     ) : (
@@ -181,87 +107,15 @@ export default function Home({ setCurrentPage, setSelectedProduct, products, sit
         </div>
       </section>
 
-      {/* 4. CHOOSE GEOMETRI KEY ADVANTAGES */}
-      <section className="py-20 section-surface brand-pattern-subtle px-4 sm:px-6 lg:px-8 xl:px-12 border-y border-brand-red/10">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-          
-          {/* Why Left */}
-          <div className="lg:col-span-6 space-y-8">
-            <div className="space-y-3">
-              <h2 className="font-display font-black text-3xl sm:text-4xl text-brand-black tracking-tight leading-tight">
-                {home.whyTitle}
-              </h2>
-              <p className="text-sm text-brand-gray-2 leading-relaxed">
-                {home.whySubtitle}
-              </p>
-            </div>
 
-            <div className="space-y-4">
-              {home.advantages.map((adv, i) => {
-                const icons = [ShieldCheck, Zap, HeartHandshake];
-                const Icon = icons[i % icons.length];
-                return (
-                  <div key={i} className="flex gap-4 p-5 card-elevated rounded-lg hover:bg-brand-red-pale/20 transition-colors">
-                    <div className="w-11 h-11 bg-brand-red text-white rounded flex items-center justify-center flex-shrink-0 mt-1">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="font-display font-extrabold text-brand-black text-base mb-1">
-                        {adv.title}
-                      </h4>
-                      <p className="text-xs text-brand-gray-1 leading-relaxed">
-                        {adv.description}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
 
-          {/* Metric Panel Card Right */}
-          <div className="lg:col-span-6">
-            <div className="border border-brand-gray-4 rounded-xl overflow-hidden shadow-md">
-              <div className="bg-brand-black text-white p-6 border-b border-brand-gray-1">
-                <h3 className="font-display font-black text-base uppercase tracking-wide">
-                  {home.metricsTitle}
-                </h3>
-                <p className="text-xs text-brand-gray-3 mt-1">
-                  {home.metricsSubtitle}
-                </p>
-              </div>
-
-              <div className="divide-y divide-brand-gray-4 bg-white">
-                {home.metrics.map((metric, i) => (
-                  <div
-                    key={i}
-                    className={`p-6 flex items-center justify-between gap-4 ${metric.highlighted ? 'border-l-4 border-brand-red' : ''}`}
-                  >
-                    <div className={`font-display font-black text-4xl ${metric.highlighted ? 'text-brand-red' : 'text-brand-black'}`}>
-                      {metric.value}
-                    </div>
-                    <div className="text-xs text-brand-gray-1 text-right max-w-sm">
-                      {metric.description}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      {/* 5. DISTRIBUTED BRANDS LOGO GRID */}
-      <section className="py-16 section-muted brand-pattern-subtle px-4 sm:px-6 lg:px-8 border-y border-brand-gray-4">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-6 mb-12">
-            <div className="text-center sm:text-left">
-              <h2 className="font-display font-black text-2xl text-brand-black tracking-tight mt-1">
-                {home.brandsTitle}
-              </h2>
-            </div>
+      {/* 5. DISTRIBUTED BRANDS LOGO MARQUEE */}
+      <section className="py-12 section-muted border-y border-brand-gray-4 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <h2 className="font-display font-black text-xl text-brand-black tracking-tight">
+              {home.brandsTitle}
+            </h2>
             <button 
               onClick={() => setCurrentPage('product')}
               className="text-xs font-black text-brand-red uppercase tracking-wide hover:text-brand-red-hover flex items-center gap-1.5 cursor-pointer"
@@ -269,182 +123,289 @@ export default function Home({ setCurrentPage, setSelectedProduct, products, sit
               Cek Filter Katalog &rarr;
             </button>
           </div>
+        </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {BRANDS.map((br, idx) => (
-              <div key={idx}>
-                <BrandCardItem br={br} setCurrentPage={setCurrentPage} />
+        {/* Marquee Container */}
+        <div className="marquee-container relative w-full overflow-hidden" style={{ maskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)' }}>
+          {/* Single track — items duplicated inside for seamless loop */}
+          <div
+            className="flex items-center gap-20 animate-marquee w-max"
+            style={{ animationDuration: `${Math.max(25, displayBrands.length * 5)}s` }}
+          >
+            {/* Set 1 */}
+            {displayBrands.map((br, idx) => (
+              <div
+                key={`a-${idx}`}
+                className="flex flex-col items-center justify-center gap-1 cursor-pointer group shrink-0 px-4 py-2"
+                onClick={() => setCurrentPage('product')}
+                title={br.name}
+              >
+                {br.logo ? (
+                  <img
+                    src={br.logo}
+                    alt={br.name}
+                    className="h-20 w-auto max-w-[180px] object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                  />
+                ) : (
+                  <span className="font-display font-black text-3xl text-brand-gray-3 group-hover:text-brand-red transition-colors tracking-wider uppercase whitespace-nowrap">
+                    {br.name}
+                  </span>
+                )}
+              </div>
+            ))}
+            {/* Set 2 — duplicate for seamless loop */}
+            {displayBrands.map((br, idx) => (
+              <div
+                key={`b-${idx}`}
+                aria-hidden="true"
+                className="flex flex-col items-center justify-center gap-1 cursor-pointer group shrink-0 px-4 py-2"
+                onClick={() => setCurrentPage('product')}
+                title={br.name}
+              >
+                {br.logo ? (
+                  <img
+                    src={br.logo}
+                    alt={br.name}
+                    className="h-20 w-auto max-w-[180px] object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                  />
+                ) : (
+                  <span className="font-display font-black text-3xl text-brand-gray-3 group-hover:text-brand-red transition-colors tracking-wider uppercase whitespace-nowrap">
+                    {br.name}
+                  </span>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 6. FEATURED PRODUCTS PREVIEW SCROLL */}
+      {/* 6. BERITA & ARTIKEL TERUPDATE */}
       <section className="py-20 section-surface brand-pattern-subtle px-4 sm:px-6 lg:px-8 xl:px-12 border-y border-brand-red/10">
         <div className="max-w-7xl mx-auto">
           
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
             <div className="text-left space-y-2">
               <h2 className="font-display font-black text-3xl text-brand-black tracking-tight leading-none">
-                {home.productsTitle}
+                Berita &amp; Artikel Terbaru
               </h2>
               <p className="text-xs text-brand-gray-2">
-                {home.productsSubtitle}
+                Informasi terkini seputar alat survey, tips lapangan, dan edukasi geodesi
               </p>
             </div>
             
             <button
-              onClick={() => setCurrentPage('product')}
+              onClick={() => setCurrentPage('blog')}
               className="text-xs font-black text-brand-red uppercase tracking-wider border-b-2 border-brand-red pb-1 flex items-center gap-1.5 hover:gap-2.5 transition-all self-start sm:self-auto cursor-pointer"
             >
-              Lihat Seluruh Katalog
+              Lihat Semua Artikel
               <ArrowUpRight className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Grid Products list */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.map((prod) => (
-              <div
-                key={prod.id}
-                onClick={() => handleViewProduct(prod)}
-                className="card-elevated rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer group flex flex-col justify-between"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {latestArticles.map((art) => (
+              <article
+                key={art.id}
+                onClick={() => setCurrentPage('blog')}
+                className="card-elevated rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer group flex flex-col"
               >
-                <div>
-                  <div className="h-44 bg-brand-gray-5 flex items-center justify-center text-5xl relative border-b border-brand-gray-4 overflow-hidden">
-                    <img 
-                      src={prod.image || CATEGORY_IMAGES[prod.category] || 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?w=800'} 
-                      alt={prod.name} 
-                      className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
-                      referrerPolicy="no-referrer"
-                    />
-                    <span className="absolute bottom-2.5 right-3.5 bg-white text-[9px] font-extrabold px-2.5 py-1 text-brand-black border border-brand-gray-4 rounded uppercase tracking-wider">
-                      {prod.brand}
-                    </span>
-                  </div>
-
-                  <div className="p-5">
-                    <span className="text-[10px] font-extrabold text-brand-red tracking-widest uppercase block mb-1">
-                      {prod.category}
-                    </span>
-                    <h3 className="font-display font-black text-brand-black text-base leading-tight mb-2 group-hover:text-brand-red transition-colors">
-                      {prod.name}
-                    </h3>
-                    <p className="text-xs text-brand-gray-2 line-clamp-3 leading-relaxed mb-4">
-                      {prod.description}
-                    </p>
-                  </div>
+                <div className="h-52 bg-brand-gray-5 relative border-b border-brand-gray-4 overflow-hidden">
+                  <img
+                    src={art.image || ARTICLE_FALLBACK_IMAGES[art.category] || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800'}
+                    alt={art.title}
+                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    referrerPolicy="no-referrer"
+                  />
+                  <span className="absolute top-3 left-3 bg-brand-red text-white text-[9px] font-extrabold px-2.5 py-1 rounded uppercase tracking-wider">
+                    {art.category}
+                  </span>
                 </div>
 
-                <div className="px-5 pb-5 pt-1">
-                  <div className="w-full text-center border border-brand-gray-4 text-brand-gray-1 hover:border-brand-red hover:text-brand-red bg-white hover:bg-brand-red-pale py-2.5 rounded-md font-display font-black text-xs uppercase tracking-wider transition-colors">
-                    Lihat Spesifikasi &rarr;
+                <div className="p-5 flex flex-col flex-grow">
+                  <span className="text-[10px] font-bold text-brand-gray-3 uppercase tracking-wider mb-2">{art.date} · {art.author}</span>
+                  <h3 className="font-display font-black text-brand-black text-base leading-tight mb-2 group-hover:text-brand-red transition-colors line-clamp-2">
+                    {art.title}
+                  </h3>
+                  <p className="text-xs text-brand-gray-2 leading-relaxed line-clamp-3 flex-grow">
+                    {art.excerpt}
+                  </p>
+                  <div className="mt-4 flex items-center gap-1 text-xs font-black text-brand-red uppercase tracking-wider group-hover:gap-2 transition-all">
+                    <span>Baca Selengkapnya</span>
+                    <ArrowUpRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
-              </div>
+              </article>
             ))}
           </div>
 
         </div>
       </section>
 
+
       {/* 7. NATIONAL NETWORK MAP PREVIEW */}
-      <section className="py-20 section-muted brand-pattern-subtle px-4 sm:px-6 lg:px-8 xl:px-12 border-t border-brand-gray-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <section className="py-20 section-muted px-4 sm:px-6 lg:px-8 xl:px-12 border-t border-brand-gray-4">
+        <div className="max-w-7xl mx-auto">
           
-          <div className="lg:col-span-6 space-y-6 text-left">
+          <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
             <h2 className="font-display font-black text-3xl sm:text-4xl text-brand-black tracking-tight leading-tight">
               {home.branchesTitle}
             </h2>
-            <div className="p-5 bg-brand-red-pale/45 border-l-4 border-brand-red rounded-r-lg">
-              <p className="text-xs text-brand-gray-1 font-semibold leading-relaxed">
-                {home.branchesNote}
-              </p>
-            </div>
-            
-            <button
-              onClick={() => setCurrentPage('about')}
-              className="bg-brand-black hover:bg-brand-red text-white py-3.5 px-6 rounded-md font-display font-extrabold text-xs uppercase tracking-widest inline-flex items-center gap-2 shadow transition-colors cursor-pointer"
-            >
-              <MapPin className="w-4 h-4" />
-              Cari Cabang Terdekat &rarr;
-            </button>
+            <p className="text-sm text-brand-gray-2 leading-relaxed">
+              {home.branchesNote}
+            </p>
           </div>
 
-          <div className="lg:col-span-6">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {branches.map((br) => {
                 const isHQ = br.isHQ;
                 return (
                   <div 
                     key={br.id}
                     onClick={() => setCurrentPage('about')}
-                    className={`group border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-md cursor-pointer flex flex-col h-28 relative bg-white ${
-                      isHQ 
-                        ? 'border-brand-red ring-1 ring-brand-red/15' 
-                        : 'border-brand-gray-4 hover:border-brand-red'
+                    className={`group rounded-2xl overflow-hidden transition-all duration-500 hover:shadow-[0_20px_40px_-10px_rgba(220,38,38,0.2)] hover:-translate-y-2 cursor-pointer flex flex-col items-center justify-center p-5 sm:p-6 relative bg-white/50 backdrop-blur-xl border border-white shadow-xl ${
+                      isHQ ? 'ring-2 ring-brand-red/50 shadow-[0_0_30px_rgba(220,38,38,0.15)]' : ''
                     }`}
                   >
-                    {/* Cover image or map fallback icon layout */}
-                    <div className="w-full h-14 relative overflow-hidden bg-brand-gray-5 shrink-0">
+                    {/* Glass highlight effect */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-white/40 via-white/0 to-white/20 pointer-events-none"></div>
+
+                    {/* Logo Image */}
+                    <div className="w-full h-24 sm:h-[104px] mb-4 relative flex items-center justify-center">
+                      <div className="absolute inset-0 bg-brand-red/10 blur-[20px] rounded-full scale-50 opacity-0 group-hover:opacity-100 group-hover:scale-100 transition-all duration-700"></div>
+                      
                       {br.image ? (
                         <img 
                           src={br.image} 
                           alt={br.name}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 filter brightness-95 group-hover:brightness-100"
+                          className="w-full h-full object-contain relative z-10 transition-transform duration-700 group-hover:scale-110 drop-shadow-sm"
                           referrerPolicy="no-referrer"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-brand-gray-5 to-brand-gray-4">
-                          <MapPin className="w-4 h-4 text-brand-gray-3" />
-                        </div>
+                        <MapPin className="w-8 h-8 text-brand-gray-3 relative z-10" />
                       )}
                       
                       {isHQ && (
-                        <span className="absolute top-1 left-1.5 bg-brand-red text-[7.5px] font-black uppercase tracking-widest text-white px-1.5 py-0.5 rounded shadow-sm">
-                          HQ
+                        <span className="absolute -top-3 -left-3 bg-gradient-to-r from-brand-red to-brand-red-hover text-[8px] font-black uppercase tracking-widest text-white px-2.5 py-1 rounded-br-lg rounded-tl-lg shadow-md border border-white z-20">
+                          HQ Utama
                         </span>
                       )}
                     </div>
-                    {/* Text Details */}
-                    <div className="p-1.5 flex-grow flex flex-col justify-center text-center z-10 leading-none">
-                      <span className="font-display font-black text-[11px] text-brand-black group-hover:text-brand-red transition-colors block truncate">
-                        {br.name}
-                      </span>
-                      <span className="text-[7.5px] uppercase font-bold tracking-wider text-brand-gray-2 mt-0.5 block truncate">
-                        {br.region}
-                      </span>
+                    
+                    {/* Branch Name */}
+                    <span className="font-display font-black text-[14px] sm:text-[15px] text-brand-black mb-5 text-center line-clamp-1 relative z-10 tracking-wide">
+                      {br.name.toLowerCase().includes('geometri') ? br.name : `Geometri ${br.name}`}
+                    </span>
+
+                    {/* Action Buttons - Frosted Pills */}
+                    <div className="flex items-center gap-2.5 mt-auto relative z-10">
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); window.open(`https://wa.me/${br.phone.replace(/\D/g, '') || '6285135716279'}`, '_blank'); }}
+                        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/80 border border-brand-gray-4 flex items-center justify-center text-brand-black hover:bg-brand-red hover:border-brand-red hover:text-white hover:shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:-translate-y-1 transition-all duration-300"
+                        title="WhatsApp"
+                      >
+                        <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                      </button>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); window.open(`https://maps.google.com/?q=${encodeURIComponent(br.address)}`, '_blank'); }}
+                        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/80 border border-brand-gray-4 flex items-center justify-center text-brand-black hover:bg-brand-red hover:border-brand-red hover:text-white hover:shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:-translate-y-1 transition-all duration-300"
+                        title="Maps"
+                      >
+                        <MapPin className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                      </button>
+                      <button 
+                        onClick={(e) => { e.stopPropagation(); window.open(`https://geo-metri.com`, '_blank'); }}
+                        className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/80 border border-brand-gray-4 flex items-center justify-center text-brand-black hover:bg-brand-red hover:border-brand-red hover:text-white hover:shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:-translate-y-1 transition-all duration-300"
+                        title="Website"
+                      >
+                        <Globe className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+                      </button>
                     </div>
                   </div>
                 );
               })}
             </div>
-          </div>
-
         </div>
       </section>
 
-      {/* 8. PERSISTENT FLOATING BAR */}
-      <div className="bg-brand-red-pale border-t-2 border-brand-red py-6 px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4 relative">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-brand-red rounded-full flex items-center justify-center text-white flex-shrink-0 shadow-sm animate-bounce">
-            <Phone className="w-5 h-5 fill-white" />
-          </div>
-          <div className="text-center md:text-left">
-            <h4 className="font-display font-extrabold text-sm text-brand-black">{home.ctaTitle}</h4>
-            <p className="text-xs text-brand-gray-2">{home.ctaSubtitle}</p>
+      {/* 8. MITRA KAMI SECTION */}
+      <section className="py-12 section-surface brand-pattern-subtle border-y border-brand-gray-4 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <h2 className="font-display font-black text-xl text-brand-black tracking-tight">
+              Mitra Kami
+            </h2>
+            <button 
+              onClick={() => setCurrentPage('contact')}
+              className="text-xs font-black text-brand-red uppercase tracking-wide hover:text-brand-red-hover flex items-center gap-1.5 cursor-pointer"
+            >
+              Hubungi Kami &rarr;
+            </button>
           </div>
         </div>
-        <a
-          href="https://wa.me/6282262865676?text=Halo%20Admin%20Geometri%20Bandung,%20kami%20memerlukan%20dokumen%20penawaran%20harga%20alat%20survey%20secepatnya."
-          target="_blank"
-          rel="noreferrer"
-          className="bg-brand-red hover:bg-brand-red-hover text-white font-display font-black text-xs uppercase tracking-wider px-6 py-3 rounded-md shadow-md transition-colors"
-        >
-          Minta Penawaran Sekarang
-        </a>
-      </div>
+
+        {/* Marquee Container - Same style as brands */}
+        <div className="marquee-container relative w-full overflow-hidden" style={{ maskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 12%, black 88%, transparent)' }}>
+          {/* Single track — items duplicated inside for seamless loop */}
+          <div
+            className="flex items-center gap-20 animate-marquee w-max"
+            style={{ animationDuration: `${Math.max(25, displayPartners.length * 5)}s` }}
+          >
+            {/* Set 1 */}
+            {displayPartners.map((partner, idx) => (
+              <div
+                key={`a-${idx}`}
+                className="flex flex-col items-center justify-center gap-1 cursor-pointer group shrink-0 px-4 py-2"
+                onClick={() => setCurrentPage('contact')}
+                title={partner.name}
+              >
+                {partner.logo ? (
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="h-20 w-auto max-w-[180px] object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                  />
+                ) : (
+                  <span className="font-display font-black text-3xl text-brand-gray-3 group-hover:text-brand-red transition-colors tracking-wider uppercase whitespace-nowrap">
+                    {partner.name.slice(0,4)}
+                  </span>
+                )}
+                {partner.category && (
+                  <span className="text-[10px] font-bold text-brand-gray-2 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                    {partner.category}
+                  </span>
+                )}
+              </div>
+            ))}
+            {/* Set 2 — duplicate for seamless loop */}
+            {displayPartners.map((partner, idx) => (
+              <div
+                key={`b-${idx}`}
+                aria-hidden="true"
+                className="flex flex-col items-center justify-center gap-1 cursor-pointer group shrink-0 px-4 py-2"
+                onClick={() => setCurrentPage('contact')}
+                title={partner.name}
+              >
+                {partner.logo ? (
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="h-20 w-auto max-w-[180px] object-contain grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                  />
+                ) : (
+                  <span className="font-display font-black text-3xl text-brand-gray-3 group-hover:text-brand-red transition-colors tracking-wider uppercase whitespace-nowrap">
+                    {partner.name.slice(0,4)}
+                  </span>
+                )}
+                {partner.category && (
+                  <span className="text-[10px] font-bold text-brand-gray-2 uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
+                    {partner.category}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
     </div>
   );

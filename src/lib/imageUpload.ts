@@ -23,7 +23,8 @@ export function resizeImageToBase64(
           return;
         }
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        resolve(canvas.toDataURL('image/jpeg', quality));
+        const mimeType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
+        resolve(canvas.toDataURL(mimeType, quality));
       };
       img.onerror = () => reject(new Error('Gagal memuat gambar'));
       img.src = event.target?.result as string;

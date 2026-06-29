@@ -4,7 +4,7 @@ import {
   Branch,
   Project,
 } from '../types';
-import { SERVICES, BRANCHES, PORTFOLIO } from '../data';
+import { BRANDS, PARTNERS, SERVICES, BRANCHES, PORTFOLIO } from '../data';
 
 export const STORAGE_KEYS = {
   products: 'geometri_products',
@@ -21,7 +21,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     headlineLine2: 'Terpercaya Indonesia',
     tagline: '#TemanSurveyor Indonesia',
     description:
-      'Integrator solusi survey satu pintu di Jawa Barat. Jual Alat Bergaransi · Sewa & Rental · Servis Tersertifikasi · Kalibrasi KAN · Jasa Mapping Udara.',
+      'Cabang Papua siap melayani Anda di Jayapura & sekitarnya. Jual Alat Bergaransi · Sewa & Rental · Servis Tersertifikasi · Kalibrasi KAN · Jasa Mapping Udara.',
     slides: [
       {
         id: 1,
@@ -70,9 +70,9 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     servicesTitle: 'Layanan Penilaian Presisi Tinggi',
     servicesSubtitle:
       'Kami mendukung penuh operasional konstruksi dan survei kadastral Anda di mana pun di Indonesia dengan komitmen efisiensi tingkat tinggi.',
-    whyTitle: 'Mengapa Harus Geometri Bandung?',
+    whyTitle: 'Mengapa Pilih Geometri Papua (Cabang Jayapura)?',
     whySubtitle:
-      'Kami bukan sekadar toko retail alat pemetaan melainkan mitra andal lapangan (#TemanSurveyor) yang mengerti tantangan kondisi bumi Indonesia.',
+      'Kami hadir khusus di Jayapura sebagai mitra lapangan (#TemanSurveyor) yang paham kondisi geografis dan tantangan operasional di Papua.',
     advantages: [
       {
         title: 'Jaminan Alat Orisinal Bergaransi',
@@ -87,7 +87,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
       {
         title: 'Dukungan Pelatihan Juru Ukur Pemula',
         description:
-          'Setiap pembelian unit alat di kota Bandung menyertakan kelas bimbingan pengoperasian (free training) hingga surveyor Anda mahir merekam koordinat pertama di lapangan.',
+          'Setiap pembelian unit alat di Jayapura menyertakan kelas bimbingan pengoperasian (free training) hingga surveyor Anda mahir merekam koordinat pertama di lapangan.',
       },
     ],
     metricsTitle: 'Angka Kepatuhan & Jangkauan',
@@ -115,32 +115,32 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     brandsTitle: 'Distributor & Vendor Resmi Global',
     productsTitle: 'Instrumen Terlaris Minggu Ini',
     productsSubtitle:
-      'Peralatan penunjang pengukuran tanah yang paling dominan dioperasikan di lokasi konstruksi Jawa Barat.',
-    branchesTitle: 'Jaringan Terdistribusi di Seluruh Indonesia',
+      'Peralatan penunjang pengukuran tanah yang paling dominan dioperasikan di lokasi konstruksi Papua & sekitarnya.',
+    branchesTitle: 'Cabang Papua & Jaringan Nasional Kami',
     branchesNote:
-      'Di Jawa Barat, Kantor Pusat kami di Batununggal, Bandung siap menyuplai, servis kilat dan kalibrasi tuntas untuk instansi swasta lokal, perguruan tinggi, maupun instansi kedinasan.',
+      'Cabang kami di Abepura, Jayapura siap menyuplai, servis kilat dan kalibrasi tuntas untuk instansi swasta lokal, perguruan tinggi, maupun instansi kedinasan di wilayah Papua.',
     ctaTitle: 'Butuh Penawaran Legal Resmi (Quotation)?',
     ctaSubtitle:
-      'Hubungi Geometri Bandung untuk mendapatkan PDF penawaran dalam 15 menit.',
+      'Hubungi Geometri Papua Cabang Jayapura untuk mendapatkan PDF penawaran dalam 15 menit.',
   },
   contact: {
     pageTitle: 'Hubungi Juru Hubung Kami',
     pageSubtitle:
       'Tim sales dan teknisi kami siap merespons pertanyaan Anda secepat mungkin melalui WhatsApp, telepon, atau email resmi.',
-    address: 'Jl. Libra III No.14B, Kec. Batununggal, Kota Bandung, Jawa Barat 40275',
-    phone: '+62 822-6286-5676',
-    email: 'geometriindonesia@gmail.com',
+    address: 'Jl. Kakatua No.Blok 6, Wai Mhorock, Kec. Abepura, Kota Jayapura, Papua 99225',
+    phone: '+62 851-3571-6279',
+    email: 'geometripapua@gmail.com',
     website: 'https://geo-metri.com',
-    whatsapp: '6282262865676',
+    whatsapp: '6285135716279',
     mapEmbedUrl:
-      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.7986!2d107.632!3d-6.917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTUnMDEuMiJTIDEwN8KwMzcnNTUuMiJF!5e0!3m2!1sid!2sid!4v1',
+      'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3986.0!2d140.713!3d-2.592!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMsKwMzUnMzEuMiJTIDE0MMKwNDInNDYuOCJF!5e0!3m2!1sid!2sid!4v1',
   },
   about: {
-    pageTitle: 'Tentang PT Geo Metri Indonesia',
+    pageTitle: 'Tentang Geometri Papua — Cabang Jayapura',
     pageSubtitle:
-      'Perjalanan kami sebagai distributor alat survey terpercaya sejak 2019, dengan jaringan cabang nasional dan komitmen pada presisi pengukuran.',
+      'Kami bagian dari jaringan nasional PT Geo Metri Indonesia, hadir khusus melayani Jayapura dan seluruh wilayah Papua sejak 2019.',
     companyDescription:
-      'PT Geo Metri Indonesia (Geometri Bandung) didirikan pada tahun 2019 sebagai pusat distribusi alat survey orisinal di Jawa Barat. Kami melayani penjualan, sewa, servis, kalibrasi, dan jasa pemetaan untuk instansi pemerintah, BUMN, kontraktor, dan perguruan tinggi.',
+      'PT Geo Metri Indonesia — Cabang Papua (Jayapura) beroperasi sejak 2019 sebagai pusat distribusi alat survey orisinal di wilayah Papua. Kami melayani penjualan, sewa, servis, kalibrasi, dan jasa pemetaan untuk instansi pemerintah, BUMN, kontraktor, dan perguruan tinggi di Papua.',
     vision:
       'Menjadi mitra geospasial terdepan di Indonesia yang menghadirkan solusi pengukuran presisi, terjangkau, dan terpercaya bagi setiap juru ukur.',
     mission:
@@ -148,9 +148,9 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     timeline: [
       {
         year: '2019',
-        title: 'Pendirian Kantor Pusat Bandung',
+        title: 'Pendirian Cabang Papua',
         description:
-          'Memulai operasional sebagai distributor alat survey dengan fokus layanan Jawa Barat.',
+          'Membuka operasional Cabang Papua sebagai distributor alat survey resmi dengan fokus pelayanan Jayapura dan sekitarnya.',
       },
       {
         year: '2021',
@@ -175,6 +175,24 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
     pageTitle: 'Portofolio Proyek Jasa Pemetaan',
     pageSubtitle:
       'Kumpulan komitmen kerja nyata tim engineering & geodesi PT Geo Metri Indonesia dalam menyukseskan proyek infrastruktur bupati, BUMN, maupun industri swasta.',
+  },
+  brands: BRANDS.map(b => ({ ...b })),
+  partners: PARTNERS.map(p => ({ ...p })),
+  footer: {
+    companyDescription: 'Cabang Papua (Jayapura) — PT Geo Metri Indonesia melayani kebutuhan instrumen pemetaan orisinal, andal, dan bersertifikasi sejak 2019 untuk mendukung pembangunan infrastruktur di Papua.',
+    services: [
+      'Penjualan Alat Survey',
+      'Sewa & Rental GPS/TS',
+      'Servis Alat Presisi',
+      'Sertifikasi Kalibrasi KAN',
+      'Pemetaan Jasa Survey Udara',
+    ],
+    socialLinks: [
+      { platform: 'YouTube', url: 'https://www.youtube.com/@geometrichannel', icon: 'Youtube' },
+      { platform: 'Instagram', url: 'https://www.instagram.com/geometri.id/', icon: 'Instagram' },
+      { platform: 'Facebook', url: 'https://www.facebook.com/profile.php?id=61572071534432', icon: 'Facebook' },
+      { platform: 'LinkedIn', url: 'https://www.linkedin.com/company/geometri-indonesia/', icon: 'Linkedin' },
+    ],
   },
 };
 

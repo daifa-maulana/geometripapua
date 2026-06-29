@@ -66,13 +66,13 @@ export default function Products({ selectedProduct, setSelectedProduct, products
   };
 
   const handleSendWAOrder = (p: Product) => {
-    const msg = `Halo Geometri Bandung, saya mencari informasi harga dan ketersediaan unit alat survey melalui katalog website:\n\n` +
+    const msg = `Halo Geometri Papua, saya mencari informasi harga dan ketersediaan unit alat survey melalui katalog website:\n\n` +
                 `- Nama Alat: ${p.name}\n` +
                 `- Kategori: ${p.category}\n` +
                 `- Brand: ${p.brand}\n\n` +
                 `Apakah unit ini ready di cabang terdekat atau perlu indent? Mohon dikirimkan harga nett beserta kelengkapan aksesorisnya. Terima kasih.`;
     const encoded = encodeURIComponent(msg);
-    window.open(`https://wa.me/6282262865676?text=${encoded}`, '_blank');
+    window.open(`https://wa.me/6285135716279?text=${encoded}`, '_blank');
   };
 
   return (
@@ -87,7 +87,7 @@ export default function Products({ selectedProduct, setSelectedProduct, products
             </h1>
           </div>
           <p className="text-xs text-brand-gray-2 max-w-sm leading-relaxed">
-            Semua unit bersertifikasi original, berpaspor nomor serial orisinil pabrikan, serta didukung kalibrasi awal mandiri gratis dari tim lab Bandung kami.
+            Semua unit bersertifikasi original, berpaspor nomor serial orisinil pabrikan, serta didukung kalibrasi awal mandiri gratis dari tim lab Papua kami.
           </p>
         </div>
 

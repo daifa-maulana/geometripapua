@@ -99,7 +99,7 @@ export default function Blog({ articles }: BlogProps) {
             >
               <div>
                 {/* Visual Thumbnail */}
-                <div className="h-44 bg-brand-gray-5 flex items-center justify-center text-6xl relative border-b border-brand-gray-4 select-none overflow-hidden">
+                <div className="h-52 bg-brand-gray-5 flex items-center justify-center text-6xl relative border-b border-brand-gray-4 select-none overflow-hidden">
                   <img 
                     src={art.image || ARTICLE_CATEGORY_IMAGES[art.category] || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800'} 
                     alt={art.title} 
@@ -211,7 +211,7 @@ export default function Blog({ articles }: BlogProps) {
                 </div>
 
                 {/* Visual Cover Banner */}
-                <div className="w-full h-48 sm:h-60 rounded-xl overflow-hidden mb-6 border border-brand-gray-4 bg-brand-gray-5">
+                <div className="w-full h-64 sm:h-80 rounded-xl overflow-hidden mb-6 border border-brand-gray-4 bg-brand-gray-5">
                   <img 
                     src={selectedArticle.image || ARTICLE_CATEGORY_IMAGES[selectedArticle.category] || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800'} 
                     alt={selectedArticle.title} 
@@ -266,7 +266,7 @@ export default function Blog({ articles }: BlogProps) {
 
                   <button
                     onClick={() => {
-                      const shareText = `Baca "${selectedArticle.title}" oleh ${selectedArticle.author} di Geometri Bandung`;
+                      const shareText = `Baca "${selectedArticle.title}" oleh ${selectedArticle.author} di Geometri Papua`;
                       navigator.clipboard.writeText(`${shareText}\nhttps://geo-metri.com`);
                       alert('Teks tautan artikel berhasil disalin ke clipboard!');
                     }}

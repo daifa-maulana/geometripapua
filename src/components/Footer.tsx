@@ -1,18 +1,29 @@
 import React from 'react';
 import { Mail, Phone, Globe, MapPin, Youtube, Instagram, Facebook, Linkedin, ArrowRight, Star } from 'lucide-react';
 import brandLogoLight from '../../assets/Logo Bolong-01.png';
+import { SiteSettings } from '../types';
 
 interface FooterProps {
   setCurrentPage: (page: string) => void;
+  siteSettings: SiteSettings;
 }
 
-export default function Footer({ setCurrentPage }: FooterProps) {
+const SOCIAL_ICONS: Record<string, React.ReactNode> = {
+  Youtube: <Youtube className="w-4 h-4" />,
+  Instagram: <Instagram className="w-4 h-4" />,
+  Facebook: <Facebook className="w-4 h-4" />,
+  Linkedin: <Linkedin className="w-4 h-4" />,
+};
+
+export default function Footer({ setCurrentPage, siteSettings }: FooterProps) {
   const handleNavClick = (id: string) => {
     setCurrentPage(id);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const currentYear = new Date().getFullYear();
+  const contact = siteSettings?.contact;
+  const footer = siteSettings?.footer;
 
   return (
     <footer className="bg-brand-black text-white border-t-4 border-brand-red pt-16 pb-8 relative overflow-hidden brand-pattern">
@@ -35,23 +46,23 @@ export default function Footer({ setCurrentPage }: FooterProps) {
               #TemanSurveyor Indonesia
             </div>
             <p className="text-sm text-brand-gray-3 leading-relaxed mb-6">
-              PT Geo Metri Indonesia berdiri sejak 2019, berkomitmen mendistribusikan kebutuhan instrumen pemetaan orisinal, andal, dengan akurasi standar internasional untuk menyokong infrastruktur nasional.
+              {footer?.companyDescription}
             </p>
             
             {/* Social channels */}
             <div className="flex items-center gap-2.5">
-              <a href="https://www.youtube.com/@geometrichannel" target="_blank" rel="noreferrer" className="w-9 h-9 border border-white/10 hover:border-brand-red hover:bg-brand-red rounded-full flex items-center justify-center text-brand-gray-3 hover:text-white transition-all duration-200" title="YouTube">
-                <Youtube className="w-4 h-4" />
-              </a>
-              <a href="https://www.instagram.com/geometri.id/" target="_blank" rel="noreferrer" className="w-9 h-9 border border-white/10 hover:border-brand-red hover:bg-brand-red rounded-full flex items-center justify-center text-brand-gray-3 hover:text-white transition-all duration-200" title="Instagram">
-                <Instagram className="w-4 h-4" />
-              </a>
-              <a href="https://www.facebook.com/profile.php?id=61572071534432" target="_blank" rel="noreferrer" className="w-9 h-9 border border-white/10 hover:border-brand-red hover:bg-brand-red rounded-full flex items-center justify-center text-brand-gray-3 hover:text-white transition-all duration-200" title="Facebook">
-                <Facebook className="w-4 h-4" />
-              </a>
-              <a href="https://www.linkedin.com/company/geometri-indonesia/" target="_blank" rel="noreferrer" className="w-9 h-9 border border-white/10 hover:border-brand-red hover:bg-brand-red rounded-full flex items-center justify-center text-brand-gray-3 hover:text-white transition-all duration-200" title="LinkedIn">
-                <Linkedin className="w-4 h-4" />
-              </a>
+              {(footer?.socialLinks ?? []).map((link) => (
+                <a
+                  key={link.platform}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-9 h-9 border border-white/10 hover:border-brand-red hover:bg-brand-red rounded-full flex items-center justify-center text-brand-gray-3 hover:text-white transition-all duration-200"
+                  title={link.platform}
+                >
+                  {SOCIAL_ICONS[link.icon] || <Globe className="w-4 h-4" />}
+                </a>
+              ))}
             </div>
           </div>
 
@@ -106,55 +117,41 @@ export default function Footer({ setCurrentPage }: FooterProps) {
               Layanan Utama
             </h3>
             <ul className="space-y-3.5 text-sm text-brand-gray-3">
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-brand-red rounded-full"></span>
-                <span>Penjualan Alat Survey</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-brand-red rounded-full"></span>
-                <span>Sewa & Rental GPS/TS</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-brand-red rounded-full"></span>
-                <span>Servis Alat Presisi</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-brand-red rounded-full"></span>
-                <span>Sertifikasi Kalibrasi KAN</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-brand-red rounded-full"></span>
-                <span>Pemetaan Jasa Survey Udara</span>
-              </li>
+              {(footer?.services ?? []).map((svc, i) => (
+                <li key={i} className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-brand-red rounded-full"></span>
+                  <span>{svc}</span>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Main Headquarters Contact */}
           <div>
             <h3 className="font-display font-black text-xs uppercase tracking-wider text-brand-gray-3 border-l-2 border-brand-red pl-3.5 mb-6">
-              Kantor Pusat Bandung
+              Kontak Cabang Papua
             </h3>
             <ul className="space-y-4 text-sm text-brand-gray-3">
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-brand-red flex-shrink-0 mt-1" />
-                <span>Jl. Libra III No.14B, Batununggal, Bandung, Jawa Barat 40275</span>
+                <span>{contact?.address}</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-brand-red flex-shrink-0" />
-                <a href="tel:+6282262865676" className="hover:text-brand-red transition-colors font-medium">
-                  +62 822-6286-5676
+                <a href={`tel:${contact?.phone}`} className="hover:text-brand-red transition-colors font-medium">
+                  {contact?.phone}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail className="w-4 h-4 text-brand-red flex-shrink-0" />
-                <a href="mailto:geometriindonesia@gmail.com" className="hover:text-brand-red transition-colors">
-                  geometriindonesia@gmail.com
+                <a href={`mailto:${contact?.email}`} className="hover:text-brand-red transition-colors">
+                  {contact?.email}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Globe className="w-4 h-4 text-brand-red flex-shrink-0" />
-                <a href="https://geo-metri.com" target="_blank" rel="noreferrer" className="hover:text-brand-red transition-colors">
-                  www.geo-metri.com
+                <a href={contact?.website} target="_blank" rel="noreferrer" className="hover:text-brand-red transition-colors">
+                  {contact?.website?.replace('https://', 'www.')}
                 </a>
               </li>
             </ul>
@@ -165,7 +162,7 @@ export default function Footer({ setCurrentPage }: FooterProps) {
         {/* Separator row */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-brand-gray-3">
           <p className="text-center md:text-left">
-            &copy; {currentYear !== 2026 ? `2019 - ${currentYear}` : '2019 - 2026'} <strong className="text-white font-black">PT Geo Metri Indonesia</strong>. Kantor Pusat Bandung. All Rights Reserved.
+            &copy; {currentYear !== 2026 ? `2019 - ${currentYear}` : '2019 - 2026'} <strong className="text-white font-black">PT Geo Metri Indonesia</strong>. Cabang Papua (Jayapura). All Rights Reserved.
           </p>
           <div className="flex items-center gap-4 flex-wrap justify-center">
             <span className="flex items-center gap-1">
@@ -174,7 +171,7 @@ export default function Footer({ setCurrentPage }: FooterProps) {
             <span>&bull;</span>
             <span>White Dominant Minimalist</span>
             <span>&bull;</span>
-            <span>Jawa Barat Surveyor Network</span>
+            <span>Papua Surveyor Network — Melayani Lokal</span>
           </div>
         </div>
 

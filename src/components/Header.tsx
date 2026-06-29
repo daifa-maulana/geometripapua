@@ -31,7 +31,7 @@ export default function Header({ currentPage, setCurrentPage }: HeaderProps) {
   };
 
   return (
-    <header className="w-full relative z-40">
+    <header className="w-full sticky top-0 z-40">
       {/* Main Bar Sticky-Capable */}
       <div className="w-full bg-white border-b-3 border-brand-red shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -63,7 +63,7 @@ export default function Header({ currentPage, setCurrentPage }: HeaderProps) {
             
             {/* Call To Action Direct WhatsApp */}
             <a
-              href="https://wa.me/6282262865676?text=Halo%20Geometri%20Bandung,%20saya%20tertarik%20dengan%20layanan%20alat%20survey."
+              href="https://wa.me/6285135716279?text=Halo%20Geometri%20Papua,%20saya%20tertarik%20dengan%20layanan%20alat%20survey."
               target="_blank"
               rel="noreferrer"
               className="ml-4 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 border border-emerald-500 rounded-md font-extrabold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-transform active:scale-95 duration-100"
@@ -122,9 +122,9 @@ export default function Header({ currentPage, setCurrentPage }: HeaderProps) {
           </div>
 
           <div className="mt-auto border-t pt-5">
-            <p className="text-xs text-brand-gray-2 mb-3">Kantor Pusat PT Geo Metri Indonesia</p>
+            <p className="text-xs text-brand-gray-2 mb-3">Geometri Papua — Cabang Jayapura</p>
             <a
-              href="https://wa.me/6282262865676"
+              href="https://wa.me/6285135716279"
               target="_blank"
               rel="noreferrer"
               className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-lg text-center font-bold text-sm block"

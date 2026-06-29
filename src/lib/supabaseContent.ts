@@ -1,5 +1,5 @@
 import { ARTICLES, BRANCHES, PORTFOLIO, PRODUCTS, SERVICES } from '../data';
-import { Article, Branch, Product, Project, ServiceDetail, SiteSettings } from '../types';
+import { Article, BrandItem, Branch, Partner, Product, Project, ServiceDetail, SiteSettings } from '../types';
 import { DEFAULT_SITE_SETTINGS } from './siteContent';
 import { isSupabaseConfigured, supabase } from './supabase';
 
@@ -9,7 +9,9 @@ type ContentKey =
   | 'siteSettings'
   | 'services'
   | 'branches'
-  | 'portfolio';
+  | 'portfolio'
+  | 'brands'
+  | 'partners';
 
 interface ContentBundle {
   products: Product[];
@@ -18,6 +20,8 @@ interface ContentBundle {
   services: ServiceDetail[];
   branches: Branch[];
   portfolio: Project[];
+  brands: BrandItem[];
+  partners: Partner[];
 }
 
 export interface VisitorPoint {
@@ -32,6 +36,8 @@ const DEFAULT_CONTENT: ContentBundle = {
   services: SERVICES,
   branches: BRANCHES,
   portfolio: PORTFOLIO,
+  brands: DEFAULT_SITE_SETTINGS.brands ?? [],
+  partners: DEFAULT_SITE_SETTINGS.partners ?? [],
 };
 
 function getDefaultContent(): ContentBundle {
@@ -42,6 +48,8 @@ function getDefaultContent(): ContentBundle {
     services: structuredClone(DEFAULT_CONTENT.services),
     branches: structuredClone(DEFAULT_CONTENT.branches),
     portfolio: structuredClone(DEFAULT_CONTENT.portfolio),
+    brands: structuredClone(DEFAULT_CONTENT.brands),
+    partners: structuredClone(DEFAULT_CONTENT.partners),
   };
 }
 
@@ -59,44 +67,106 @@ async function upsertContentRecord<T>(key: ContentKey, payload: T): Promise<void
   }
 }
 
+// Detects if stored siteSettings still contains stale Bandung contact data
+function isStaleContactData(loaded: Partial<SiteSettings> | undefined | null): boolean {
+  if (!loaded?.contact) return false;
+  const c = loaded.contact as { phone?: string; email?: string; whatsapp?: string };
+  const STALE_PHONE_FRAGMENTS = ['6282262865676', '62822-6286', 'Bandung', 'bandung', '40275'];
+  const STALE_EMAIL_FRAGMENTS = ['geometriindonesia@', 'geometribandung@'];
+  const phone = (c.phone ?? '') + (c.whatsapp ?? '');
+  const email = c.email ?? '';
+  return (
+    STALE_PHONE_FRAGMENTS.some((f) => phone.includes(f)) ||
+    STALE_EMAIL_FRAGMENTS.some((f) => email.includes(f))
+  );
+}
+
+function mergeSiteSettings(loaded: Partial<SiteSettings> | undefined | null, fallback: SiteSettings): SiteSettings {
+  if (!loaded) return fallback;
+  // If Supabase still has stale Bandung contact, force fallback (Papua) contact data
+  const contactData = isStaleContactData(loaded) ? fallback.contact : { ...fallback.contact, ...loaded.contact };
+  return {
+    hero: { ...fallback.hero, ...loaded.hero },
+    home: { ...fallback.home, ...loaded.home },
+    contact: contactData,
+    about: { ...fallback.about, ...loaded.about },
+    servicesPage: { ...fallback.servicesPage, ...loaded.servicesPage },
+    portfolioPage: { ...fallback.portfolioPage, ...loaded.portfolioPage },
+    brands: loaded.brands ?? fallback.brands,
+    partners: loaded.partners ?? fallback.partners,
+    footer: isStaleContactData(loaded) ? fallback.footer : (loaded.footer ?? fallback.footer),
+  };
+}
+
 export async function loadAllContent(): Promise<ContentBundle> {
   const fallback = getDefaultContent();
 
   if (!isSupabaseConfigured || !supabase) {
+    console.info('Supabase not configured, using default content');
     return fallback;
   }
 
-  const { data, error } = await supabase
-    .from('site_content')
-    .select('key,payload')
-    .in('key', ['products', 'articles', 'siteSettings', 'services', 'branches', 'portfolio']);
+  try {
+    const { data, error } = await supabase
+      .from('site_content')
+      .select('key,payload')
+      .in('key', ['products', 'articles', 'siteSettings', 'services', 'branches', 'portfolio', 'brands', 'partners']);
 
-  if (error) {
-    console.error('Failed to load content from Supabase:', error.message);
+    if (error) {
+      console.error('Failed to load content from Supabase:', error.message);
+      return fallback;
+    }
+
+    const lookup = new Map((data ?? []).map((row) => [row.key as ContentKey, row.payload]));
+
+    // Check if siteSettings in Supabase has stale/Bandung contact data — override with Papua defaults.
+    // The reseed write to Supabase may fail if the user is not authenticated (RLS), which is fine —
+    // the correct local defaults will still be used for display. After admin login + "Reset Bawaan",
+    // Supabase will be permanently updated.
+    const rawSiteSettings = lookup.get('siteSettings') as Partial<SiteSettings> | undefined;
+    if (isStaleContactData(rawSiteSettings)) {
+      console.info('[Geometri] Stale Bandung contact detected — using Papua defaults. Login as admin and click "Reset Bawaan" to permanently sync Supabase.');
+      // Always override the lookup so correct defaults are used for rendering
+      lookup.set('siteSettings', fallback.siteSettings as unknown as Record<string, unknown>);
+      // Attempt reseed silently — will succeed only if user is authenticated (admin)
+      upsertContentRecord('siteSettings', fallback.siteSettings).catch(() => {
+        // RLS may block unauthenticated writes — this is expected. Admin login will fix permanently.
+      });
+    }
+
+    const merged: ContentBundle = {
+      products: (lookup.get('products') as Product[]) ?? fallback.products,
+      articles: (lookup.get('articles') as Article[]) ?? fallback.articles,
+      siteSettings: mergeSiteSettings(lookup.get('siteSettings') as Partial<SiteSettings> | undefined, fallback.siteSettings),
+      services: (lookup.get('services') as ServiceDetail[]) ?? fallback.services,
+      branches: (lookup.get('branches') as Branch[]) ?? fallback.branches,
+      portfolio: (lookup.get('portfolio') as Project[]) ?? fallback.portfolio,
+      brands: (lookup.get('brands') as BrandItem[]) ?? fallback.brands,
+      partners: (lookup.get('partners') as Partner[]) ?? fallback.partners,
+    };
+
+    const missingKeys = (['products', 'articles', 'siteSettings', 'services', 'branches', 'portfolio', 'brands', 'partners'] as ContentKey[])
+      .filter((key) => !lookup.has(key));
+
+    if (missingKeys.length > 0) {
+      await Promise.all(
+        missingKeys.map((key) => upsertContentRecord(key, merged[key as keyof ContentBundle]))
+      );
+    }
+
+    return merged;
+  } catch (error) {
+    console.error('Unexpected error loading content:', error);
     return fallback;
   }
+}
 
-  const lookup = new Map((data ?? []).map((row) => [row.key as ContentKey, row.payload]));
-
-  const merged: ContentBundle = {
-    products: (lookup.get('products') as Product[]) ?? fallback.products,
-    articles: (lookup.get('articles') as Article[]) ?? fallback.articles,
-    siteSettings: (lookup.get('siteSettings') as SiteSettings) ?? fallback.siteSettings,
-    services: (lookup.get('services') as ServiceDetail[]) ?? fallback.services,
-    branches: (lookup.get('branches') as Branch[]) ?? fallback.branches,
-    portfolio: (lookup.get('portfolio') as Project[]) ?? fallback.portfolio,
-  };
-
-  const missingKeys = (['products', 'articles', 'siteSettings', 'services', 'branches', 'portfolio'] as ContentKey[])
-    .filter((key) => !lookup.has(key));
-
-  if (missingKeys.length > 0) {
-    await Promise.all(
-      missingKeys.map((key) => upsertContentRecord(key, merged[key]))
-    );
-  }
-
-  return merged;
+/**
+ * Force-reseed ALL content to the current default values.
+ * Use this from Admin panel to push latest defaults to Supabase.
+ */
+export async function forceReseedToDefault(): Promise<ContentBundle> {
+  return resetAllContentToDefault();
 }
 
 export async function saveProducts(products: Product[]): Promise<void> {
@@ -119,6 +189,14 @@ export async function saveBranches(branches: Branch[]): Promise<void> {
   await upsertContentRecord('branches', branches);
 }
 
+export async function saveBrandsData(brands: BrandItem[]): Promise<void> {
+  await upsertContentRecord('brands', brands);
+}
+
+export async function savePartnersData(partners: Partner[]): Promise<void> {
+  await upsertContentRecord('partners', partners);
+}
+
 export async function savePortfolio(portfolio: Project[]): Promise<void> {
   await upsertContentRecord('portfolio', portfolio);
 }
@@ -133,6 +211,8 @@ export async function resetAllContentToDefault(): Promise<ContentBundle> {
     saveServices(defaults.services),
     saveBranches(defaults.branches),
     savePortfolio(defaults.portfolio),
+    saveBrandsData(defaults.brands),
+    savePartnersData(defaults.partners),
   ]);
 
   return defaults;

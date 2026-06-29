@@ -43,6 +43,14 @@ export interface Branch {
   phone: string;
 }
 
+export interface Partner {
+  id: string;
+  name: string;
+  logo?: string;
+  description?: string;
+  category?: string;
+}
+
 export interface Project {
   id: string;
   title: string;
@@ -131,6 +139,24 @@ export interface PageHeader {
   pageSubtitle: string;
 }
 
+export interface BrandItem {
+  name: string;
+  origin: string;
+  logo: string;
+}
+
+export interface SocialLink {
+  platform: string;
+  url: string;
+  icon: string;
+}
+
+export interface FooterContent {
+  companyDescription: string;
+  services: string[];
+  socialLinks: SocialLink[];
+}
+
 export interface SiteSettings {
   hero: HeroContent;
   home: HomeContent;
@@ -138,4 +164,7 @@ export interface SiteSettings {
   about: AboutContent;
   servicesPage: PageHeader;
   portfolioPage: PageHeader;
+  brands: BrandItem[];
+  partners: Partner[];
+  footer: FooterContent;
 }

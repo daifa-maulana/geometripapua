@@ -1,4 +1,4 @@
-import { Product, Article, ServiceDetail, Branch, Project } from './types';
+import { Product, Article, ServiceDetail, Branch, Partner, Project } from './types';
 
 export const SERVICES: ServiceDetail[] = [
   {
@@ -67,42 +67,42 @@ export const BRANDS = [
   { 
     name: 'Topcon', 
     origin: 'Jepang', 
-    logo: 'https://logo.clearbit.com/topconpositioning.com' 
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Topcon_logo.svg/1200px-Topcon_logo.svg.png' 
   },
   { 
     name: 'Sokkia', 
     origin: 'Jepang', 
-    logo: 'https://logo.clearbit.com/sokkia.com' 
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Sokkia_logo.svg/1200px-Sokkia_logo.svg.png' 
   },
   { 
     name: 'Leica', 
     origin: 'Swiss', 
-    logo: 'https://logo.clearbit.com/leica-geosystems.com' 
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Leica_Camera_Logo.svg/1200px-Leica_Camera_Logo.svg.png' 
   },
   { 
     name: 'Trimble', 
     origin: 'Amerika Serikat', 
-    logo: 'https://logo.clearbit.com/trimble.com' 
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Trimble_logo.svg/1200px-Trimble_logo.svg.png' 
   },
   { 
     name: 'Nikon', 
     origin: 'Jepang', 
-    logo: 'https://logo.clearbit.com/nikon.com' 
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Nikon_Logo.svg/1200px-Nikon_Logo.svg.png' 
   },
   { 
     name: 'Spectra', 
     origin: 'Amerika Serikat', 
-    logo: 'https://logo.clearbit.com/spectrageospatial.com' 
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Spectra_Precision_logo.svg/1200px-Spectra_Precision_logo.svg.png' 
   },
   { 
     name: 'DJI Enterprise', 
     origin: 'Global', 
-    logo: 'https://logo.clearbit.com/dji.com' 
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Di_Logo.svg/1200px-Di_Logo.svg.png' 
   },
   { 
     name: 'Garmin', 
     origin: 'Global', 
-    logo: 'https://logo.clearbit.com/garmin.com' 
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Garmin_logo.svg/1200px-Garmin_logo.svg.png' 
   }
 ];
 
@@ -221,7 +221,7 @@ export const PRODUCTS: Product[] = [
       'Koreksi real-time via NTRIP/CORS atau D-RTK 2 Mobile Station',
       'OcuSync video transmission hingga jangkauan 7 km'
     ],
-    priceRange: 'Hubungi Sales (Ready Stock Bandung)'
+    priceRange: 'Hubungi Sales (Ready Stock Papua)'
   },
   {
     id: 'prod-6',
@@ -296,8 +296,8 @@ export const PORTFOLIO: Project[] = [
     id: 'proj-1',
     title: 'Survey Topografi Lahan Perumahan Baru',
     category: 'Pengukuran Topografis',
-    location: 'Ciparay, Kabupaten Bandung',
-    client: 'PT Bandung Graha Property',
+    location: 'Abepura, Kota Jayapura',
+    client: 'PT Jayapura Graha Property',
     year: '2025',
     emoji: '🏘️',
     description: 'Pengukuran topografi mendetail seluas 12 hektar demi merencanakan siteplan perumahan hijau, menghitung volume cut and fill tanah, serta menentukan letak drainase utama yang bebas banjir.'
@@ -306,8 +306,8 @@ export const PORTFOLIO: Project[] = [
     id: 'proj-2',
     title: 'Foto Udara Orthofoton Presisi Kawasan Industri',
     category: 'Pemetaan Drone UAV',
-    location: 'Rancaekek, Kabupaten Bandung',
-    client: 'Kementerian Perindustrian RI',
+    location: 'Sentani, Kabupaten Jayapura',
+    client: 'Bappeda Provinsi Papua',
     year: '2025',
     emoji: '🏭',
     description: 'Pembuatan peta foto udara resolusi tinggi (GSD 3cm) seluas 150 hektar menggunakan drone DJI Phantom 4 RTK yang diikat dengan Ground Control Points (GCP) yang diukur GPS Geodetis.'
@@ -316,33 +316,33 @@ export const PORTFOLIO: Project[] = [
     id: 'proj-3',
     title: 'Batimetri Aliran Sungai & Penampang Danau',
     category: 'Hidrografi & Batimetri',
-    location: 'Waduk Saguling, Bandung Barat',
-    client: 'PT Indonesia Power',
+    location: 'Danau Sentani, Jayapura',
+    client: 'Balai Wilayah Sungai (BWS) Papua',
     year: '2024',
     emoji: '🚢',
     description: 'Pengukuran profil kedalaman dasar air dan danau guna menghitung laju sedimentasi tahunan waduk PLTA. Menggunakan echosounder frekuensi ganda terintegrasi koordinat GPS RTK.'
   },
   {
     id: 'proj-4',
-    title: 'Monitoring Deformasi Terowongan Jalur Kereta Cepat',
+    title: 'Monitoring Deformasi Jembatan Youtefa',
     category: 'Konstruksi & Sipil Presisi',
-    location: 'Walini - Batununggal, Bandung',
-    client: 'PT KCIC / CREC Indonesia',
+    location: 'Abepura - Jayapura, Papua',
+    client: 'Dinas Pekerjaan Umum & Penataan Ruang Papua',
     year: '2024',
-    emoji: '🚇',
-    description: 'Pemantauan berkala bulanan pergeseran milimeter dinding struktural beton terowongan kereta cepat menggunakan Robotic Total Station presisi tinggi 1-detik Leica TS16.'
+    emoji: '🌉',
+    description: 'Pemantauan berkala bulanan pergeseran milimeter pilar dan girder struktural Jembatan Youtefa menggunakan Robotic Total Station presisi tinggi 1-detik Leica TS16.'
   }
 ];
 
 export const BRANCHES: Branch[] = [
   {
     id: 'b-1',
-    name: 'Bandung',
-    region: 'Jawa Barat',
+    name: 'Jayapura',
+    region: 'Papua',
     isHQ: true,
     image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800',
-    address: 'Jl. Libra III No.14B, Kec. Batununggal, Kota Bandung, Jawa Barat 40275',
-    phone: '+62 822-6286-5676'
+    address: 'Jl. Kakatua No.Blok 6, Wai Mhorock, Kec. Abepura, Kota Jayapura, Papua 99225',
+    phone: '+62 851-3571-6279'
   },
   {
     id: 'b-2',
@@ -442,6 +442,65 @@ export const BRANCHES: Branch[] = [
   }
 ];
 
+export const PARTNERS: Partner[] = [
+  {
+    id: 'partner-1',
+    name: 'PT Trimble Indonesia',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Trimble_logo.svg/1200px-Trimble_logo.svg.png',
+    description: 'Partner resmi Trimble untuk distribusi GNSS receiver dan solusi pemetaan precision agriculture',
+    category: 'Distributor'
+  },
+  {
+    id: 'partner-2',
+    name: 'Leica Geosystems',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Leica_Camera_Logo.svg/1200px-Leica_Camera_Logo.svg.png',
+    description: 'Partner teknologi untuk survey instruments dan robotics total stations',
+    category: 'Manufaktur'
+  },
+  {
+    id: 'partner-3',
+    name: 'DJI Enterprise',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Di_Logo.svg/1200px-Di_Logo.svg.png',
+    description: 'Reseller resmi drone enterprise dan solusi pemetaan udara presisi tinggi',
+    category: 'Distributor'
+  },
+  {
+    id: 'partner-4',
+    name: 'PT Topcon Indonesia',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Topcon_logo.svg/1200px-Topcon_logo.svg.png',
+    description: 'Partner manufaktur untuk total stations dan GNSS positioning systems',
+    category: 'Manufaktur'
+  },
+  {
+    id: 'partner-5',
+    name: 'Sokkia',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Sokkia_logo.svg/1200px-Sokkia_logo.svg.png',
+    description: 'Distributor resmi Sokkia untuk theodolite, level, dan surveying instruments',
+    category: 'Distributor'
+  },
+  {
+    id: 'partner-6',
+    name: 'Badan Pertanahan Nasional',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Logo_BPN.png/1200px-Logo_BPN.png',
+    description: 'Kemitraan strategis untuk program pemetaan dan penguatan basis data pertanahan nasional',
+    category: 'Pemerintah'
+  },
+  {
+    id: 'partner-7',
+    name: 'Universitas Cenderawasih',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Logo_Uncen.png/1200px-Logo_Uncen.png',
+    description: 'Mitra akademis untuk riset geospasial dan training profesional surveyor di Papua',
+    category: 'Akademis'
+  },
+  {
+    id: 'partner-8',
+    name: 'PT Jasa Marga',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Logo_Jasa_Marga.svg/1200px-Logo_Jasa_Marga.svg.png',
+    description: 'Klien strategis untuk jasa pemetaan infrastruktur jalan dan monitoring deformasi',
+    category: 'Korporat'
+  }
+];
+
 export const ARTICLES: Article[] = [
   {
     id: 'art-1',
@@ -480,7 +539,7 @@ Menerapkan disiplin perawatan yang baik tidak hanya menjamin keakuratan data di 
 - **Keluarkan Baterai Selama Penyimpanan Lama**: Cairan asam baterai yang bocor karena tersimpan terlalu lama sangat merusak kontak sirkuit tembaga internal unit total station Anda. Selalu pisahkan baterai jika instrumen tidak akan dioperasikan di atas 2 minggu.
 - **Lakukan Uji Kolimasi Sederhana**: Lakukan pengujian target berkala dua wajah (F1 dan F2) secara teratur untuk memeriksa apakah ada penyimpangan sumbu optik utama Anda sebelum membawanya ke luar kota.`,
     emoji: '⚙️',
-    author: 'Kepala Lab Servis Bandung'
+    author: 'Kepala Lab Servis Papua'
   },
   {
     id: 'art-3',
@@ -499,7 +558,7 @@ Inilah mengapa **kalibrasi secara periodik** sangat wajib hukumnya bagi setiap i
 3. **Selisih Beda Tinggi Melompat di Atas Limit**: Pengukuran waterpass loop bolak-balik menghasilkan galat penutup (closing error) yang melebihi standar toleransi kelas pengukuran ordo 3.
 4. **Sudah Digunakan Melebihi 6 Bulan**: Sejak tanggal penerbitan kalibrasi terakhir, pelat mekanis dan cincin gesekan kompensator perlahan melar atau mengalami gesekan wajar yang memerlukan penyelarasan ulang di instrumen kolimator laboratorium bersertifikat.
 
-Dengan mengkalibrasi instrumen Anda secara rutin di Geometri Bandung, Anda akan menerima **Certificate of Calibration** resmi yang diakui oleh Konsultan Pengawas dan Instansi Pemerintah BUMN sebagai pembuktian standar kepatuhan hukum keakurasian data Anda.`,
+Dengan mengkalibrasi instrumen Anda secara rutin di Geometri Papua, Anda akan menerima **Certificate of Calibration** resmi yang diakui oleh Konsultan Pengawas dan Instansi Pemerintah BUMN sebagai pembuktian standar kepatuhan hukum keakurasian data Anda.`,
     emoji: '📏',
     author: 'Technical Assessor Geometri'
   }
