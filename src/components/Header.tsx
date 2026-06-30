@@ -61,16 +61,7 @@ export default function Header({ currentPage, setCurrentPage }: HeaderProps) {
               </button>
             ))}
             
-            {/* Call To Action Direct WhatsApp */}
-            <a
-              href="https://wa.me/6285135716279?text=Halo%20Geometri%20Papua,%20saya%20tertarik%20dengan%20layanan%20alat%20survey."
-              target="_blank"
-              rel="noreferrer"
-              className="ml-4 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 border border-emerald-500 rounded-md font-extrabold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-sm transition-transform active:scale-95 duration-100"
-            >
-              <PhoneCall className="w-3.5 h-3.5 fill-white" />
-              Hubungi Sales (WA)
-            </a>
+
           </nav>
 
           {/* Mobile Navigation Hamburger button */}

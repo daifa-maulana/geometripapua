@@ -41,6 +41,8 @@ export interface Branch {
   image?: string;
   address: string;
   phone: string;
+  email?: string;
+  website?: string;
 }
 
 export interface Partner {

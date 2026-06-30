@@ -209,11 +209,11 @@ export default function Home({ setCurrentPage, articles, siteSettings, services,
                 onClick={() => setCurrentPage('blog')}
                 className="card-elevated rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 cursor-pointer group flex flex-col"
               >
-                <div className="h-52 bg-brand-gray-5 relative border-b border-brand-gray-4 overflow-hidden">
+                <div className="w-full min-h-[220px] bg-brand-gray-5 relative border-b border-brand-gray-4 overflow-hidden flex items-center justify-center">
                   <img
                     src={art.image || ARTICLE_FALLBACK_IMAGES[art.category] || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800'}
                     alt={art.title}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    className="max-w-full max-h-full object-contain transform group-hover:scale-105 transition-transform duration-300"
                     referrerPolicy="no-referrer"
                   />
                   <span className="absolute top-3 left-3 bg-brand-red text-white text-[9px] font-extrabold px-2.5 py-1 rounded uppercase tracking-wider">

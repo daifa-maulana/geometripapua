@@ -99,11 +99,11 @@ export default function Blog({ articles }: BlogProps) {
             >
               <div>
                 {/* Visual Thumbnail */}
-                <div className="h-52 bg-brand-gray-5 flex items-center justify-center text-6xl relative border-b border-brand-gray-4 select-none overflow-hidden">
-                  <img 
-                    src={art.image || ARTICLE_CATEGORY_IMAGES[art.category] || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800'} 
-                    alt={art.title} 
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
+                <div className="w-full min-h-[220px] bg-brand-gray-5 flex items-center justify-center relative border-b border-brand-gray-4 select-none overflow-hidden">
+                  <img
+                    src={art.image || ARTICLE_CATEGORY_IMAGES[art.category] || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800'}
+                    alt={art.title}
+                    className="max-w-full max-h-full object-contain transform group-hover:scale-105 transition-transform duration-300"
                     referrerPolicy="no-referrer"
                   />
                   <span className="absolute top-3 left-3 bg-brand-red text-white text-[9px] font-extrabold px-2.5 py-1 rounded uppercase tracking-wider">
@@ -211,11 +211,11 @@ export default function Blog({ articles }: BlogProps) {
                 </div>
 
                 {/* Visual Cover Banner */}
-                <div className="w-full h-64 sm:h-80 rounded-xl overflow-hidden mb-6 border border-brand-gray-4 bg-brand-gray-5">
-                  <img 
-                    src={selectedArticle.image || ARTICLE_CATEGORY_IMAGES[selectedArticle.category] || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800'} 
-                    alt={selectedArticle.title} 
-                    className="w-full h-full object-cover"
+                <div className="w-full min-h-[260px] sm:min-h-[320px] rounded-xl overflow-hidden mb-6 border border-brand-gray-4 bg-brand-gray-5 flex items-center justify-center">
+                  <img
+                    src={selectedArticle.image || ARTICLE_CATEGORY_IMAGES[selectedArticle.category] || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800'}
+                    alt={selectedArticle.title}
+                    className="max-w-full max-h-full object-contain"
                     referrerPolicy="no-referrer"
                   />
                 </div>

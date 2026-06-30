@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, MessageCircle } from 'lucide-react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './components/Home';
@@ -281,15 +281,26 @@ export default function App() {
       )}
 
       {/* 2. PERSISTENT FLOATING QUICK ACTIONS */}
-      {currentPage !== 'admin' && showBackToTop && (
-        <div className="fixed bottom-6 right-6 z-40">
-          <button
-            onClick={scrollToTop}
-            title="Kembali ke atas"
-            className="w-11 h-11 bg-brand-red hover:bg-brand-red-hover text-white rounded-full flex items-center justify-center shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer border border-brand-red-light focus:outline-none"
+      {currentPage !== 'admin' && (
+        <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+          {showBackToTop && (
+            <button
+              onClick={scrollToTop}
+              title="Kembali ke atas"
+              className="w-11 h-11 bg-brand-red hover:bg-brand-red-hover text-white rounded-full flex items-center justify-center shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer border border-brand-red-light focus:outline-none"
+            >
+              <ArrowUp className="w-5 h-5" />
+            </button>
+          )}
+          <a
+            href="https://wa.me/6285135716279?text=Halo%20Geometri%20Papua,%20saya%20tertarik%20dengan%20layanan%20alat%20survey."
+            target="_blank"
+            rel="noreferrer"
+            title="Hubungi via WhatsApp"
+            className="w-14 h-14 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full flex items-center justify-center shadow-lg hover:-translate-y-1 transition-all duration-200 cursor-pointer border-2 border-white focus:outline-none"
           >
-            <ArrowUp className="w-5 h-5" />
-          </button>
+            <MessageCircle className="w-7 h-7 fill-white" />
+          </a>
         </div>
       )}
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   SiteSettings,
   ServiceDetail,
@@ -185,12 +185,14 @@ function Field({
   onChange,
   multiline = false,
   rows = 3,
+  autoFocus = false,
 }: {
   label: string;
   value: string;
   onChange: (v: string) => void;
   multiline?: boolean;
   rows?: number;
+  autoFocus?: boolean;
 }) {
   const cls =
     'w-full bg-brand-gray-5 border border-brand-gray-4 p-3 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red font-semibold text-brand-black';
@@ -200,9 +202,9 @@ function Field({
         {label}
       </label>
       {multiline ? (
-        <textarea rows={rows} value={value} onChange={(e) => onChange(e.target.value)} className={cls} />
+        <textarea rows={rows} value={value} onChange={(e) => onChange(e.target.value)} className={cls} autoFocus={autoFocus} />
       ) : (
-        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} className={cls} />
+        <input type="text" value={value} onChange={(e) => onChange(e.target.value)} className={cls} autoFocus={autoFocus} />
       )}
     </div>
   );
@@ -339,17 +341,26 @@ function LayananTab({
   showNotif: (msg: string, type?: 'success' | 'error') => void;
 }) {
   const [draft, setDraft] = useState(services);
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
-  const updateService = (index: number, field: keyof ServiceDetail, value: string) => {
+  const updateService = <K extends keyof ServiceDetail>(index: number, field: K, value: ServiceDetail[K]) => {
     const updated = [...draft];
-    updated[index] = { ...updated[index], [field]: value };
+    updated[index] = { ...updated[index], [field]: value } as ServiceDetail;
     setDraft(updated);
   };
 
   const addService = () => {
-    setDraft([...draft, { id: `service-${Date.now()}`, title: '', description: '', icon: '' }]);
-    setEditingIndex(draft.length);
+    setDraft([
+      ...draft,
+      {
+        id: `service-${Date.now()}`,
+        num: String(draft.length + 1).padStart(2, '0'),
+        title: '',
+        description: '',
+        iconName: '',
+        image: '',
+        bullets: [],
+      },
+    ]);
   };
 
   const deleteService = (index: number) => {
@@ -376,9 +387,24 @@ function LayananTab({
               <Trash2 className="w-4 h-4 text-brand-red" />
             </button>
           </div>
+          <Field label="Nomor Layanan" value={service.num} onChange={(v) => updateService(index, 'num', v)} />
           <Field label="Judul Layanan" value={service.title} onChange={(v) => updateService(index, 'title', v)} />
+          <ImageUploadField
+            label="Gambar Layanan"
+            value={service.image || ''}
+            onChange={(v) => updateService(index, 'image', v)}
+            onUploadSuccess={() => showNotif('Gambar layanan berhasil diunggah!')}
+            onUploadError={(m) => showNotif(m, 'error')}
+          />
           <Field label="Deskripsi" value={service.description} onChange={(v) => updateService(index, 'description', v)} multiline rows={3} />
-          <Field label="Icon (emoji atau nama icon)" value={service.icon} onChange={(v) => updateService(index, 'icon', v)} />
+          <Field label="Nama Icon (lucide-react)" value={service.iconName} onChange={(v) => updateService(index, 'iconName', v)} />
+          <Field
+            label="Butir Layanan (pisahkan baris baru)"
+            value={service.bullets.join('\n')}
+            onChange={(v) => updateService(index, 'bullets', v.split('\n').map((item) => item.trim()).filter(Boolean))}
+            multiline
+            rows={4}
+          />
         </div>
       ))}
 
@@ -399,6 +425,18 @@ function CabangTab({
   showNotif: (msg: string, type?: 'success' | 'error') => void;
 }) {
   const [draft, setDraft] = useState(branches);
+  const [newBranchId, setNewBranchId] = useState<string | null>(null);
+  const newBranchRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!newBranchId) return;
+    const target = newBranchRef.current;
+    const timeout = window.setTimeout(() => {
+      target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setNewBranchId(null);
+    }, 80);
+    return () => window.clearTimeout(timeout);
+  }, [newBranchId]);
 
   const updateBranch = (index: number, field: keyof Branch, value: string) => {
     const updated = [...draft];
@@ -407,7 +445,18 @@ function CabangTab({
   };
 
   const addBranch = () => {
-    setDraft([...draft, { id: `branch-${Date.now()}`, name: '', address: '', phone: '', email: '' }]);
+    const branch = {
+      id: `branch-${Date.now()}`,
+      name: '',
+      region: '',
+      image: '',
+      address: '',
+      phone: '',
+      email: '',
+      website: ''
+    };
+    setDraft([branch, ...draft]);
+    setNewBranchId(branch.id);
   };
 
   const deleteBranch = (index: number) => {
@@ -419,25 +468,52 @@ function CabangTab({
 
   return (
     <div className="space-y-6 text-left">
-      <div className="flex justify-between items-center">
-        <h3 className="font-display font-black text-lg text-brand-black">Cabang</h3>
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <div>
+          <h3 className="font-display font-black text-lg text-brand-black">Cabang</h3>
+          <p className="text-[11px] text-brand-gray-2 mt-1 max-w-2xl">
+            Tambahkan dan sunting data cabang dengan website, region, telepon, email, dan alamat. Data ini akan membantu admin memahami struktur jaringan cabang lebih cepat.
+          </p>
+        </div>
         <button onClick={addBranch} className="bg-brand-red hover:bg-brand-red-hover text-white py-2 px-4 rounded-lg text-[10px] font-bold uppercase flex items-center gap-1 cursor-pointer">
           <Plus className="w-3 h-3" /> Tambah Cabang
         </button>
       </div>
 
       {draft.map((branch, index) => (
-        <div key={branch.id} className="bg-white border border-brand-gray-4 rounded-xl p-6 space-y-4">
-          <div className="flex justify-between items-center border-b border-brand-gray-4 pb-3">
-            <h4 className="font-display font-black text-sm text-brand-black">Cabang #{index + 1}</h4>
-            <button onClick={() => deleteBranch(index)} className="bg-rose-50 hover:bg-rose-100 border border-rose-100 p-2 rounded-lg cursor-pointer">
-              <Trash2 className="w-4 h-4 text-brand-red" />
+        <div
+          key={branch.id}
+          ref={branch.id === newBranchId ? newBranchRef : null}
+          className="bg-white border border-brand-gray-4 rounded-xl p-4 space-y-3"
+        >
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-brand-gray-4 pb-3">
+            <div>
+              <h4 className="font-display font-black text-sm text-brand-black">
+                {branch.name ? `Cabang ${branch.name}` : `Cabang #${index + 1}`}
+              </h4>
+              <p className="text-[11px] text-brand-gray-2 mt-1">
+                Lengkapi data cabang dengan region, website, telepon, email, dan alamat agar lebih mudah dipelajari.
+              </p>
+            </div>
+            <button onClick={() => deleteBranch(index)} className="bg-rose-50 hover:bg-rose-100 border border-rose-100 p-2 rounded-lg cursor-pointer text-brand-red">
+              <Trash2 className="w-4 h-4" />
             </button>
           </div>
-          <Field label="Nama Cabang" value={branch.name} onChange={(v) => updateBranch(index, 'name', v)} />
-          <Field label="Alamat" value={branch.address} onChange={(v) => updateBranch(index, 'address', v)} multiline rows={2} />
-          <Field label="Telepon" value={branch.phone} onChange={(v) => updateBranch(index, 'phone', v)} />
-          <Field label="Email" value={branch.email} onChange={(v) => updateBranch(index, 'email', v)} />
+          <div className="grid grid-cols-1 xl:grid-cols-3 gap-3">
+            <Field label="Nama Cabang" value={branch.name} onChange={(v) => updateBranch(index, 'name', v)} autoFocus={branch.id === newBranchId} />
+            <Field label="Region Cabang" value={branch.region} onChange={(v) => updateBranch(index, 'region', v)} />
+            <ImageUploadField
+              label="Gambar Cabang"
+              value={branch.image || ''}
+              onChange={(v) => updateBranch(index, 'image', v)}
+              onUploadSuccess={() => showNotif('Gambar cabang berhasil diunggah!')}
+              onUploadError={(m) => showNotif(m, 'error')}
+            />
+            <Field label="Website Cabang" value={branch.website || ''} onChange={(v) => updateBranch(index, 'website', v)} />
+            <Field label="Telepon" value={branch.phone} onChange={(v) => updateBranch(index, 'phone', v)} />
+            <Field label="Email" value={branch.email || ''} onChange={(v) => updateBranch(index, 'email', v)} />
+            <Field label="Alamat" value={branch.address} onChange={(v) => updateBranch(index, 'address', v)} multiline rows={2} />
+          </div>
         </div>
       ))}
 

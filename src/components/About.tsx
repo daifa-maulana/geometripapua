@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Phone, Building, Check, Milestone } from 'lucide-react';
+import { MapPin, Building, Milestone, Check } from 'lucide-react';
 import { Branch, SiteSettings } from '../types';
 
 interface AboutProps {
@@ -22,7 +22,7 @@ function BranchImage({ src, name, type = 'thumbnail' }: { src?: string; name: st
       );
     } else {
       return (
-        <div className="w-full h-56 rounded-lg overflow-hidden border border-brand-gray-4 bg-gradient-to-br from-brand-gray-5 via-brand-gray-4 to-brand-gray-3/30 relative select-none flex flex-col items-center justify-center p-6 text-center shadow-inner">
+        <div className="w-full min-h-[200px] rounded-lg overflow-hidden border border-brand-gray-4 bg-gradient-to-br from-brand-gray-5 via-brand-gray-4 to-brand-gray-3/30 relative select-none flex flex-col items-center justify-center p-6 text-center shadow-inner">
           <div className="p-3 bg-brand-red-pale border border-brand-red-light rounded-full text-brand-red mb-2 shadow-xs">
             <Building className="w-6 h-6 animate-pulse" />
           </div>
@@ -41,11 +41,11 @@ function BranchImage({ src, name, type = 'thumbnail' }: { src?: string; name: st
   }
 
   return (
-    <div className={type === 'thumbnail' ? "w-16 h-16 rounded-md overflow-hidden bg-brand-gray-4 shrink-0 shadow-xs border border-brand-gray-4/40 relative" : "w-full h-56 rounded-lg overflow-hidden border border-brand-gray-4 bg-brand-gray-5 relative select-none"}>
+    <div className={type === 'thumbnail' ? "w-16 h-16 rounded-md overflow-hidden bg-brand-gray-4 shrink-0 shadow-xs border border-brand-gray-4/40 relative" : "w-full rounded-lg overflow-hidden border border-brand-gray-4 bg-brand-gray-5 relative select-none"}>
       <img
         src={src}
         alt={`Geometri ${name}`}
-        className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+        className="w-full object-contain max-h-[400px]"
         referrerPolicy="no-referrer"
         onError={() => setHasError(true)}
       />
@@ -60,7 +60,6 @@ function BranchImage({ src, name, type = 'thumbnail' }: { src?: string; name: st
 
 export default function About({ siteSettings, branches }: AboutProps) {
   const { about } = siteSettings;
-  const [selectedBranch, setSelectedBranch] = useState<Branch>(branches[0]);
   const [regionFilter, setRegionFilter] = useState<string>('Semua');
 
   const regions = ['Semua', 'Papua', 'Jawa Barat', 'DKI Jakarta', 'Jawa Timur', 'Jawa Tengah', 'DIY', 'Sumatera', 'Sulawesi', 'Kalimantan', 'Bali'];
@@ -109,73 +108,69 @@ export default function About({ siteSettings, branches }: AboutProps) {
               Dengan filosofi dasar <strong>#TemanSurveyor</strong>, Cabang Papua hadir khusus untuk memenuhi kebutuhan juru ukur, kontraktor, dan instansi pemerintah di wilayah Papua — dari kalibrasi di lab hingga pelatihan pengoperasian alat gratis di lapangan.
             </p>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
-              <div className="flex gap-2.5 items-start">
-                <div className="p-1 bg-brand-red text-white rounded mt-0.5"><Check className="w-4 h-4" /></div>
-                <div>
-                  <h4 className="font-display font-extrabold text-[13px] text-brand-black uppercase">Badan Hukum Legal Sah</h4>
-                  <p className="text-xs text-brand-gray-2">PT Geo Metri Indonesia memiliki akta pendirian, sertifikat KPA, SK Kemenkumham, serta dokumen NIB terdaftar resmi.</p>
-                </div>
-              </div>
-              
-              <div className="flex gap-2.5 items-start">
-                <div className="p-1 bg-brand-red text-white rounded mt-0.5"><Check className="w-4 h-4" /></div>
-                <div>
-                  <h4 className="font-display font-extrabold text-[13px] text-brand-black uppercase">Standardisasi ISO</h4>
-                  <p className="text-xs text-brand-gray-2">Setiap alur penanganan servis instrumen di lab Papua melalui uji kalibrasi ISO 17025.</p>
-                </div>
-              </div>
-            </div>
+
           </div>
 
-          <div className="lg:col-span-5 bg-brand-gray-5 border-2 border-brand-gray-4 rounded-xl p-8 space-y-6 relative overflow-hidden">
-            <div className="absolute right-[-40px] top-[-40px] w-48 h-48 brand-pattern-dense rounded-full pointer-events-none opacity-20"></div>
-            
-            <h3 className="font-display font-black text-lg text-brand-black uppercase tracking-wide">
-              Visi & Misi Kami
+          <div className="lg:col-span-5 space-y-4">
+            <h3 className="font-display font-black text-xl text-brand-black uppercase tracking-wide">
+              Visi & Misi
             </h3>
             
-            <div className="space-y-4 text-xs text-brand-gray-1 leading-relaxed">
-              <div className="p-4 bg-white border border-brand-gray-4 rounded-md">
-                <strong className="text-brand-red block mb-1">VISI UTAMA</strong>
-                {about.vision}
+            <div className="space-y-3">
+              <div className="bg-white border border-brand-gray-4 rounded-xl p-5 hover:border-brand-red transition-colors">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-8 h-8 bg-brand-red rounded-lg flex items-center justify-center">
+                    <Milestone className="w-4 h-4 text-white" />
+                  </div>
+                  <strong className="text-sm font-bold text-brand-black uppercase tracking-wider">Visi</strong>
+                </div>
+                <p className="text-xs text-brand-gray-1 leading-relaxed pl-10">
+                  {about.vision}
+                </p>
               </div>
 
-              <div className="p-4 bg-white border border-brand-gray-4 rounded-md">
-                <strong className="text-brand-black block mb-1">MISI OPERASIONAL</strong>
-                {about.mission}
+              <div className="bg-white border border-brand-gray-4 rounded-xl p-5 hover:border-brand-red transition-colors">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-8 h-8 bg-brand-red rounded-lg flex items-center justify-center">
+                    <Check className="w-4 h-4 text-white" />
+                  </div>
+                  <strong className="text-sm font-bold text-brand-black uppercase tracking-wider">Misi</strong>
+                </div>
+                <p className="text-xs text-brand-gray-1 leading-relaxed pl-10">
+                  {about.mission}
+                </p>
               </div>
             </div>
           </div>
 
         </div>
 
-        {/* INTERACTIVE BRANCH LOCATOR GRID DESIGN */}
-        <section className="bg-brand-gray-5 border border-brand-gray-4 rounded-2xl p-6 sm:p-10 mb-20 text-left">
+        {/* BRANCH LOCATOR - CARD GRID DESIGN */}
+        <section className="mb-20">
           
-          <div className="max-w-2xl mb-8 space-y-2">
-            <div className="inline-flex items-center gap-1.5 text-brand-red text-xs font-black uppercase tracking-widest">
+          <div className="max-w-2xl mx-auto mb-10 space-y-3 text-center">
+            <div className="inline-flex items-center justify-center gap-1.5 text-brand-red text-xs font-black uppercase tracking-widest">
               <MapPin className="w-4 h-4" />
-              Interactive Locator
+              Network Locations
             </div>
             <h2 className="font-display font-black text-2xl sm:text-3xl text-brand-black tracking-tight leading-none">
               Jaringan {branches.length} Kantor Cabang Resmi
             </h2>
-            <p className="text-xs text-brand-gray-2 leading-relaxed">
+            <p className="text-sm text-brand-gray-2 leading-relaxed">
               Kami bagian dari jaringan nasional PT Geo Metri Indonesia. Pilih cabang terdekat atau langsung kunjungi Cabang Papua (Jayapura) sebagai kantor utama layanan kami di wilayah timur Indonesia.
             </p>
           </div>
 
-          {/* Region Tabs */}
-          <div className="flex gap-2 overflow-x-auto pb-4 no-scrollbar border-b border-brand-gray-4 mb-8">
+          {/* Region Filter - Horizontal Scroll */}
+          <div className="flex gap-3 overflow-x-auto pb-4 mb-8 no-scrollbar">
             {regions.map((reg) => (
               <button
                 key={reg}
                 onClick={() => setRegionFilter(reg)}
-                className={`px-4 py-2 text-xs font-display font-extrabold uppercase tracking-wider rounded border cursor-pointer whitespace-nowrap transition-all ${
+                className={`px-5 py-2.5 text-xs font-display font-extrabold uppercase tracking-wider rounded-full cursor-pointer whitespace-nowrap transition-all border-2 ${
                   regionFilter === reg
                     ? 'bg-brand-red border-brand-red text-white'
-                    : 'bg-white border-brand-gray-4 text-brand-gray-1 hover:border-brand-red'
+                    : 'bg-white border-brand-gray-4 text-brand-gray-1 hover:border-brand-red hover:text-brand-red'
                 }`}
               >
                 {reg}
@@ -183,135 +178,46 @@ export default function About({ siteSettings, branches }: AboutProps) {
             ))}
           </div>
 
-          {/* Interactive Split */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            {/* Left list of filtered branches */}
-            <div className="lg:col-span-5 space-y-3 max-h-[480px] overflow-y-auto pr-2 no-scrollbar">
-              {filteredBranches.map((br) => (
-                <div
-                  key={br.id}
-                  onClick={() => setSelectedBranch(br)}
-                  className={`p-3 rounded-lg border-2 text-left cursor-pointer transition-all flex items-center gap-3.5 ${
-                    selectedBranch.id === br.id
-                      ? 'bg-white border-brand-red shadow-md'
-                      : 'bg-white/60 hover:bg-white border-brand-gray-4 hover:border-brand-gray-3'
-                  }`}
-                >
-                  <BranchImage src={br.image} name={br.name} type="thumbnail" />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-center mb-1">
-                      <span className="font-display font-black text-sm text-brand-black flex items-center gap-1.5">
-                        {br.name}
-                        {br.isHQ && <span className="bg-brand-red-pale text-[9px] font-black tracking-widest text-brand-red uppercase px-1.5 py-0.5 rounded border border-brand-red-light">HQ</span>}
-                      </span>
-                      <span className="text-[9px] text-brand-gray-2 font-black uppercase tracking-wider bg-brand-gray-4 px-2 py-0.5 rounded">
-                        {br.region}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-brand-gray-2 line-clamp-1 leading-relaxed">
-                      {br.address}
-                    </p>
+          {/* Branch Logo Grid - Glassmorphism Frames */}
+          <div className="flex flex-wrap justify-center gap-4">
+            {filteredBranches.map((br) => (
+              <a
+                key={br.id}
+                href={`https://maps.google.com/?q=${encodeURIComponent(br.address)}`}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full sm:w-[calc(50%-1rem)] md:w-[calc(33.333%-1rem)] lg:w-[calc(20%-1rem)] flex flex-col items-center gap-2 p-4 rounded-xl bg-white/60 backdrop-blur-xl border border-white/30 shadow-lg transition-all duration-300 hover:bg-white/80 hover:border-brand-red/30 hover:shadow-xl hover:-translate-y-1 group"
+              >
+                {br.image ? (
+                  <img
+                    src={br.image}
+                    alt={`Geometri ${br.name}`}
+                    className="h-12 sm:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="h-12 w-12 rounded-xl bg-white/80 border border-white/40 flex items-center justify-center">
+                    <Building className="w-5 h-5 text-brand-red/70" />
                   </div>
-                </div>
-              ))}
-              
-              {filteredBranches.length === 0 && (
-                <div className="p-8 text-center bg-white border border-brand-gray-4 rounded-lg text-xs text-brand-gray-2">
-                  Tidak ada cabang terdaftar di filter wilayah ini.
-                </div>
-              )}
-            </div>
-
-            {/* Right detailed information display panel */}
-            <div className="lg:col-span-7 bg-white border border-brand-gray-3 rounded-xl p-6 sm:p-8 space-y-6 relative shadow-sm min-h-[350px] flex flex-col justify-between">
-              
-              <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-brand-gray-4 pb-4">
-                  <div>
-                    <h3 className="font-display font-black text-xl text-brand-black flex items-center gap-2">
-                      <Building className="w-5 h-5 text-brand-red" />
-                      Geometri {selectedBranch.name}
-                    </h3>
-                    <p className="text-xs text-brand-gray-2">PT Geo Metri Indonesia Regional {selectedBranch.region}</p>
-                  </div>
-                  {selectedBranch.isHQ && (
-                    <span className="bg-brand-red text-white text-[10px] font-black tracking-wider px-3 py-1 rounded select-none">
-                      CABANG UTAMA
-                    </span>
-                  )}
-                </div>
-
-                <BranchImage src={selectedBranch.image} name={selectedBranch.name} type="large" />
-
-                <div className="space-y-3 text-xs leading-relaxed">
-                  <div>
-                    <strong className="text-brand-black block mb-1 font-extrabold uppercase text-[10px] tracking-wider text-brand-gray-2">Alamat Fisik Operasional:</strong>
-                    <p className="text-brand-gray-1 bg-brand-gray-5 p-3 rounded border border-brand-gray-4">
-                      {selectedBranch.address}
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <strong className="text-brand-black block mb-1 font-extrabold uppercase text-[10px] tracking-wider text-brand-gray-2">Telepon / WhatsApp:</strong>
-                      <p className="text-brand-black font-bold p-3 bg-brand-gray-5 rounded border border-brand-gray-4 flex items-center gap-1.5">
-                        <Phone className="w-3.5 h-3.5 text-brand-red" />
-                        {selectedBranch.phone}
-                      </p>
-                    </div>
-
-                    <div>
-                      <strong className="text-brand-black block mb-1 font-extrabold uppercase text-[10px] tracking-wider text-brand-gray-2">Jam Kerja Cabang:</strong>
-                      <p className="text-brand-gray-1 p-3 bg-brand-gray-5 rounded border border-brand-gray-4">
-                        Senin - Sabtu: 08:30 - 17:00 WIT
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-6 border-t border-brand-gray-4 flex justify-between items-center flex-wrap gap-4">
-                <span className="text-[10px] text-brand-gray-3 italic font-semibold">
-                  #TemanSurveyor Indonesia Jual Sewa Servis Kalibrasi
+                )}
+                <span className="text-[10px] font-semibold text-brand-gray-1 text-center leading-tight">
+                  Geometri {br.name}
                 </span>
-                
-                <a
-                  href={`https://wa.me/6285135716279?text=Halo%20Geometri%20${selectedBranch.name},%20saya%20ingin%20berkonsultasi%20mengenai%20alat%20survey.`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="bg-brand-red hover:bg-brand-red-hover text-white px-5 py-2.5 rounded text-xs font-display font-extrabold uppercase tracking-wide flex items-center gap-1.5 shadow"
-                >
-                  <Phone className="w-4.5 h-4.5" />
-                  Hubungi Cabang
-                </a>
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-        {/* HISTORICAL MILESTONE TIMELINE */}
-        <div className="text-left max-w-3xl mx-auto space-y-8">
-          <h3 className="font-display font-black text-2xl text-brand-black text-center mb-10 tracking-tight">
-            Perjalanan Sejarah Kita
-          </h3>
-          
-          <div className="relative border-l-2 border-brand-gray-4 pl-6 space-y-12">
-            {about.timeline.map((item) => (
-              <div key={item.year} className="relative">
-                <div className="absolute left-[-32px] top-1.5 w-4 h-4 bg-brand-red rounded-full border-4 border-white shadow-sm"></div>
-                <div>
-                  <span className="font-display font-black text-lg text-brand-red">{item.year}</span>
-                  <h4 className="font-display font-extrabold text-sm text-brand-black uppercase mt-1 mb-2">{item.title}</h4>
-                  <p className="text-xs text-brand-gray-1 leading-relaxed">{item.description}</p>
-                </div>
-              </div>
+              </a>
             ))}
           </div>
-        </div>
+
+          {filteredBranches.length === 0 && (
+            <div className="p-12 text-center bg-white border-2 border-dashed border-brand-gray-4 rounded-xl">
+              <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-brand-gray-5 flex items-center justify-center">
+                <MapPin className="w-5 h-5 text-brand-gray-3" />
+              </div>
+              <p className="text-sm font-semibold text-brand-gray-2">Belum ada cabang</p>
+              <p className="text-xs text-brand-gray-3 mt-0.5">Tidak ada cabang terdaftar di filter wilayah ini.</p>
+            </div>
+          )}
+
+        </section>
 
       </div>
     </div>

@@ -103,3 +103,24 @@
 .marquee-container:hover .animate-marquee {
   animation-play-state: paused;
 }
+
+/* Fade-in + slide-up for branch cards */
+@keyframes fade-in-up {
+  0%   { opacity: 0; transform: translateY(16px) scale(0.97); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.animate-fade-in {
+  animation: fade-in-up 0.5s ease-out both;
+}
+
+/* Pop-in for badges */
+@keyframes in-badge {
+  0%   { opacity: 0; transform: scale(0.7); }
+  70%  { transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-in-badge {
+  animation: in-badge 0.35s ease-out 0.15s both;
+}

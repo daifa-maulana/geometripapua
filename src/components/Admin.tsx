@@ -43,6 +43,7 @@ export default function Admin({
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<string>('');
   const [isCheckingSession, setIsCheckingSession] = useState<boolean>(true);
   const [isAuthSubmitting, setIsAuthSubmitting] = useState<boolean>(false);
@@ -181,7 +182,7 @@ export default function Admin({
     date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
     excerpt: '',
     content: '',
-    emoji: '📖',
+    emoji: '',
     image: '',
     author: 'Tim Geometri Indonesia'
   });
@@ -328,7 +329,7 @@ export default function Admin({
       date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
       excerpt: '',
       content: '',
-      emoji: '🗞️',
+      emoji: '',
       image: '',
       author: 'Tim Geometri Indonesia'
     });
@@ -344,7 +345,7 @@ export default function Admin({
       date: art.date || new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
       excerpt: art.excerpt,
       content: art.content,
-      emoji: art.emoji || '🗞️',
+      emoji: art.emoji || '',
       image: art.image || '',
       author: art.author || 'Tim Geometri Indonesia'
     });
@@ -378,7 +379,7 @@ export default function Admin({
       date: artForm.date.trim() || new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' }),
       excerpt: artForm.excerpt.trim(),
       content: artForm.content.trim(),
-      emoji: artForm.emoji.trim(),
+      emoji: editingArticle?.emoji || artForm.emoji.trim(),
       image: artForm.image.trim() || undefined,
       author: artForm.author.trim()
     };
@@ -466,7 +467,8 @@ export default function Admin({
 
     return (
       <div className="w-full relative py-16 md:py-24 px-4 sm:px-6 lg:px-8 xl:px-12 page-enter page-enter-active flex items-center justify-center min-h-[75vh]">
-        <div className="max-w-md w-full bg-white border border-brand-gray-4 rounded-2xl shadow-xl overflow-hidden p-8 sm:p-10 text-left">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(224,36,36,0.10),transparent_45%),radial-gradient(circle_at_bottom_right,rgba(17,24,39,0.06),transparent_35%)]" />
+        <div className="relative max-w-md w-full bg-white/95 backdrop-blur border border-brand-gray-4 rounded-3xl shadow-[0_20px_70px_-20px_rgba(17,24,39,0.35)] overflow-hidden p-8 sm:p-10 text-left">
           
           <div className="text-center space-y-3 mb-8">
             <div className="w-12 h-12 bg-brand-red-pale rounded-full flex items-center justify-center mx-auto mb-2 text-brand-red">
@@ -502,7 +504,7 @@ export default function Admin({
               />
             </div>
 
-            <div>
+            <div className="relative">
               <label className="block text-[10px] font-black uppercase text-brand-gray-2 tracking-wider mb-1">Kata Sandi / Password</label>
               <input
                 type="password"
@@ -563,48 +565,53 @@ export default function Admin({
         )}
 
         {/* Header Admin Panel */}
-        <div className="border-b border-brand-gray-4 pb-8 mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-left">
-          <div className="space-y-1">
-            <div className="flex items-center gap-2 text-brand-red text-xs font-bold uppercase tracking-widest">
-              <Sparkles className="w-4 h-4 animate-pulse" />
-              <span>Sistem Manajemen Konten</span>
+        <div className="bg-white/90 border border-brand-gray-4 rounded-3xl p-6 sm:p-8 shadow-sm mb-8 text-left">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-5">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-brand-red text-xs font-bold uppercase tracking-widest">
+                <Sparkles className="w-4 h-4 animate-pulse" />
+                <span>Sistem Manajemen Konten</span>
+              </div>
+              <h1 className="font-display font-black text-3xl sm:text-4xl text-brand-black tracking-tight leading-none">
+                Dashboard Admin Geometri
+              </h1>
+              <p className="text-sm text-brand-gray-2 max-w-2xl">
+                Kelola katalog, artikel, dan konten website dari satu panel yang lebih rapi dan mudah dipantau.
+              </p>
             </div>
-            <h1 className="font-display font-black text-3xl sm:text-4xl text-brand-black tracking-tight leading-none pt-2">
-              Dashboard Admin Geometri
-            </h1>
-          </div>
-          <div className="flex flex-wrap gap-2.5">
-            <button 
-              onClick={() => setCurrentPage('home')}
-              className="bg-white border border-brand-gray-4 hover:border-brand-black text-brand-gray-1 hover:text-brand-black py-2.5 px-4 rounded-lg text-xs font-bold tracking-wide transition-colors flex items-center gap-2 cursor-pointer"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Lihat Website
-            </button>
-            <button 
-              onClick={handleLogout}
-              className="bg-brand-black hover:bg-brand-red text-white py-2.5 px-4 rounded-lg text-xs font-bold tracking-wide transition-colors flex items-center gap-2 cursor-pointer"
-              title="Keluar dari sesi administrator"
-            >
-              <User className="w-4 h-4" />
-              Logout
-            </button>
-            <button 
-              onClick={handleFactoryReset}
-              className="bg-transparent hover:bg-brand-red/10 text-brand-red hover:text-brand-red border border-brand-red/30 hover:border-brand-red/50 py-2.5 px-4 rounded-lg text-xs font-bold tracking-wide transition-colors flex items-center gap-2 cursor-pointer"
-              title="Kembalikan semua modifikasi data ke bawaan awal"
-            >
-              <RefreshCw className="w-4 h-4" />
-              Reset Bawaan
-            </button>
+            <div className="flex flex-wrap gap-2.5">
+              <button 
+                onClick={() => setCurrentPage('home')}
+                className="bg-white border border-brand-gray-4 hover:border-brand-black text-brand-gray-1 hover:text-brand-black py-2.5 px-4 rounded-xl text-xs font-bold tracking-wide transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                Lihat Website
+              </button>
+              <button 
+                onClick={handleLogout}
+                className="bg-brand-black hover:bg-brand-red text-white py-2.5 px-4 rounded-xl text-xs font-bold tracking-wide transition-colors flex items-center gap-2 cursor-pointer shadow-sm"
+                title="Keluar dari sesi administrator"
+              >
+                <User className="w-4 h-4" />
+                Logout
+              </button>
+              <button 
+                onClick={handleFactoryReset}
+                className="bg-transparent hover:bg-brand-red/10 text-brand-red hover:text-brand-red border border-brand-red/30 hover:border-brand-red/50 py-2.5 px-4 rounded-xl text-xs font-bold tracking-wide transition-colors flex items-center gap-2 cursor-pointer"
+                title="Kembalikan semua modifikasi data ke bawaan awal"
+              >
+                <RefreshCw className="w-4 h-4" />
+                Reset Bawaan
+              </button>
+            </div>
           </div>
         </div>
 
         {/* Dashboard Stat Counter Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-left">
           
-          <div className="bg-white border border-brand-gray-4 p-6 rounded-2xl relative overflow-hidden group hover:border-brand-red transition-all duration-200 shadow-sm">
-            <div className="absolute right-4 top-4 text-brand-red bg-brand-red-pale p-3 rounded-lg">
+          <div className="group bg-gradient-to-br from-white via-brand-gray-5/70 to-brand-red-pale/35 border border-brand-gray-4 p-6 rounded-2xl relative overflow-hidden hover:-translate-y-0.5 transition-all duration-200 shadow-sm">
+            <div className="absolute right-4 top-4 text-brand-red bg-brand-red-pale p-3 rounded-xl">
               <Tag className="w-6 h-6" />
             </div>
             <span className="text-brand-gray-2 text-[10px] font-black uppercase tracking-widest block">Total Produk Aktif</span>
@@ -614,8 +621,8 @@ export default function Admin({
             </div>
           </div>
 
-          <div className="bg-white border border-brand-gray-4 p-6 rounded-2xl relative overflow-hidden group hover:border-brand-red transition-all duration-200 shadow-sm">
-            <div className="absolute right-4 top-4 text-brand-red bg-brand-red-pale p-3 rounded-lg">
+          <div className="group bg-linear-to-br from-white via-brand-gray-5/70 to-brand-red-pale/35 border border-brand-gray-4 p-6 rounded-2xl relative overflow-hidden hover:-translate-y-0.5 transition-all duration-200 shadow-sm">
+            <div className="absolute right-4 top-4 text-brand-red bg-brand-red-pale p-3 rounded-xl">
               <BookOpen className="w-6 h-6" />
             </div>
             <span className="text-brand-gray-2 text-[10px] font-black uppercase tracking-widest block">Artikel Edukasi Juru Ukur</span>
@@ -625,8 +632,8 @@ export default function Admin({
             </div>
           </div>
 
-          <div className="bg-white border border-brand-gray-4 p-6 rounded-2xl relative overflow-hidden group hover:border-brand-red transition-all duration-200 shadow-sm">
-            <div className="absolute right-4 top-4 text-brand-red bg-brand-red-pale p-3 rounded-lg">
+          <div className="group bg-linear-to-br from-white via-brand-gray-5/70 to-brand-red-pale/35 border border-brand-gray-4 p-6 rounded-2xl relative overflow-hidden hover:-translate-y-0.5 transition-all duration-200 shadow-sm">
+            <div className="absolute right-4 top-4 text-brand-red bg-brand-red-pale p-3 rounded-xl">
               <User className="w-6 h-6" />
             </div>
             <span className="text-brand-gray-2 text-[10px] font-black uppercase tracking-widest block">Sesi Autentikasi Admin</span>
@@ -641,7 +648,7 @@ export default function Admin({
 
         </div>
 
-        <div className="bg-white border border-brand-gray-4 p-6 rounded-2xl shadow-sm mb-10 text-left">
+        <div className="bg-gradient-to-br from-white via-brand-gray-5/70 to-brand-red-pale/20 border border-brand-gray-4 p-6 rounded-3xl shadow-sm mb-10 text-left">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-5">
             <h3 className="font-display font-black text-lg text-brand-black tracking-tight">
               Grafik Pengunjung Website (7 Hari)
@@ -654,7 +661,7 @@ export default function Admin({
             </button>
           </div>
 
-          <div className="grid grid-cols-7 gap-2 items-end h-52 bg-brand-gray-5/40 rounded-xl p-4 border border-brand-gray-4">
+          <div className="grid grid-cols-7 gap-2 items-end h-54 bg-white/80 rounded-2xl p-4 border border-brand-gray-4 shadow-inner">
             {visitorSeries.map((point) => (
               <div key={point.date} className="flex flex-col items-center justify-end h-full gap-2">
                 <div className="text-[10px] font-black text-brand-gray-2">{point.count}</div>
@@ -672,45 +679,45 @@ export default function Admin({
         </div>
 
         {/* Tab Controls */}
-        <div className="border-b border-brand-gray-4 mb-8 flex justify-between items-center">
-          <div className="flex gap-4">
+        <div className="bg-white/90 border border-brand-gray-4 rounded-2xl px-4 sm:px-6 py-3 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-sm">
+          <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setActiveTab('products')}
-              className={`pb-4 px-2 text-xs uppercase tracking-wider font-display font-extrabold border-b-2 transition-all cursor-pointer ${
+              className={`px-3 py-2 rounded-xl text-xs uppercase tracking-wider font-display font-extrabold transition-all cursor-pointer ${
                 activeTab === 'products'
-                  ? 'border-brand-red text-brand-red font-black'
-                  : 'border-transparent text-brand-gray-2 hover:border-brand-gray-3'
+                  ? 'bg-brand-red text-white shadow-sm'
+                  : 'bg-brand-gray-5 text-brand-gray-2 hover:bg-brand-gray-4 hover:text-brand-black'
               }`}
             >
               Kelola Produk ({products.length})
             </button>
             <button
               onClick={() => setActiveTab('articles')}
-              className={`pb-4 px-2 text-xs uppercase tracking-wider font-display font-extrabold border-b-2 transition-all cursor-pointer ${
+              className={`px-3 py-2 rounded-xl text-xs uppercase tracking-wider font-display font-extrabold transition-all cursor-pointer ${
                 activeTab === 'articles'
-                  ? 'border-brand-red text-brand-red font-black'
-                  : 'border-transparent text-brand-gray-2 hover:border-brand-gray-3'
+                  ? 'bg-brand-red text-white shadow-sm'
+                  : 'bg-brand-gray-5 text-brand-gray-2 hover:bg-brand-gray-4 hover:text-brand-black'
               }`}
             >
               Kelola Artikel ({articles.length})
             </button>
             <button
               onClick={() => setActiveTab('site')}
-              className={`pb-4 px-2 text-xs uppercase tracking-wider font-display font-extrabold border-b-2 transition-all cursor-pointer ${
+              className={`px-3 py-2 rounded-xl text-xs uppercase tracking-wider font-display font-extrabold transition-all cursor-pointer ${
                 activeTab === 'site'
-                  ? 'border-brand-red text-brand-red font-black'
-                  : 'border-transparent text-brand-gray-2 hover:border-brand-gray-3'
+                  ? 'bg-brand-red text-white shadow-sm'
+                  : 'bg-brand-gray-5 text-brand-gray-2 hover:bg-brand-gray-4 hover:text-brand-black'
               }`}
             >
               Halaman Website
             </button>
           </div>
 
-          <div className="pb-4">
+          <div>
             {activeTab === 'products' ? (
               <button
                 onClick={handleOpenAddProduct}
-                className="bg-brand-red hover:bg-brand-red-hover text-white py-2 px-4 rounded-lg text-xs font-display font-extrabold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-sm"
+                className="bg-brand-red hover:bg-brand-red-hover text-white py-2 px-4 rounded-xl text-xs font-display font-extrabold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-sm"
               >
                 <Plus className="w-4 h-4" />
                 Tambah Produk
@@ -718,7 +725,7 @@ export default function Admin({
             ) : activeTab === 'articles' ? (
               <button
                 onClick={handleOpenAddArticle}
-                className="bg-brand-red hover:bg-brand-red-hover text-white py-2 px-4 rounded-lg text-xs font-display font-extrabold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-sm"
+                className="bg-brand-red hover:bg-brand-red-hover text-white py-2 px-4 rounded-xl text-xs font-display font-extrabold uppercase tracking-wider flex items-center gap-1.5 cursor-pointer shadow-sm"
               >
                 <Plus className="w-4 h-4" />
                 Terbitkan Artikel
@@ -732,7 +739,8 @@ export default function Admin({
           <div className="space-y-6">
             
             {/* Search and Filter Inputs for Administrator */}
-            <div className="flex flex-col sm:flex-row gap-4 items-start">
+            <div className="bg-white/90 border border-brand-gray-4 rounded-2xl p-4 sm:p-5 shadow-sm">
+              <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center">
               <div className="relative max-w-md flex-1 text-left">
                 <input
                   type="text"
@@ -743,7 +751,7 @@ export default function Admin({
                 />
                 <Search className="w-4.5 h-4.5 text-brand-gray-3 absolute left-4 top-3.5" />
               </div>
-              <div className="flex gap-3">
+              <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
                 <select
                   value={productFilterBrand}
                   onChange={(e) => setProductFilterBrand(e.target.value)}
@@ -765,16 +773,16 @@ export default function Admin({
                   ))}
                 </select>
               </div>
+              </div>
             </div>
 
             {/* List Table container */}
-            <div className="bg-white border border-brand-gray-4 rounded-xl overflow-hidden shadow-sm">
+            <div className="bg-white border border-brand-gray-4 rounded-2xl overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-brand-gray-5 border-b border-brand-gray-4 text-brand-gray-2 text-[10px] font-black uppercase tracking-widest">
-                      <th className="py-4 px-6 w-14 text-center">Visual</th>
-                      <th className="py-4 px-6">Nama Alat &amp; Seri</th>
+                          <th className="py-4 px-6">Nama Alat &amp; Seri</th>
                       <th className="py-4 px-6 w-32">Pabrikan</th>
                       <th className="py-4 px-6 w-36">Kategori</th>
                       <th className="py-4 px-6 w-40">Estimasi Jual / Sewa</th>
@@ -784,7 +792,6 @@ export default function Admin({
                   <tbody className="divide-y divide-brand-gray-4 text-xs font-medium text-brand-gray-1">
                     {dispProducts.map((p) => (
                       <tr key={p.id} className="hover:bg-brand-red-pale/20 transition-colors">
-                        <td className="py-4 px-6 text-center text-2xl">{p.emoji || '🔭'}</td>
                         <td className="py-4 px-6">
                           <span className="font-display font-black text-brand-black block text-sm">{p.name}</span>
                           <span className="text-[10px] text-brand-gray-2 block mt-0.5 line-clamp-1">{p.description}</span>
@@ -818,7 +825,7 @@ export default function Admin({
                     ))}
                     {dispProducts.length === 0 && (
                       <tr>
-                        <td colSpan={6} className="py-12 px-6 text-center text-brand-gray-2 italic font-semibold">
+                        <td colSpan={5} className="py-12 px-6 text-center text-brand-gray-2 italic font-semibold">
                           Tidak ada produk survey ditemukan yang cocok dengan kriteria pencarian "{productSearch}".
                         </td>
                       </tr>
@@ -855,24 +862,25 @@ export default function Admin({
           <div className="space-y-6">
             
             {/* Search Input for Article */}
-            <div className="relative max-w-md text-left">
-              <input
-                type="text"
-                placeholder="Cari artikel ilmiah, tips, kategori..."
-                value={articleSearch}
-                onChange={(e) => setArticleSearch(e.target.value)}
-                className="w-full bg-white border border-brand-gray-4 p-3 pl-11 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red text-brand-gray-1 font-semibold"
-              />
-              <Search className="w-4.5 h-4.5 text-brand-gray-3 absolute left-4 top-3.5" />
+            <div className="bg-white/90 border border-brand-gray-4 rounded-2xl p-4 shadow-sm">
+              <div className="relative max-w-md text-left">
+                <input
+                  type="text"
+                  placeholder="Cari artikel ilmiah, tips, kategori..."
+                  value={articleSearch}
+                  onChange={(e) => setArticleSearch(e.target.value)}
+                  className="w-full bg-white border border-brand-gray-4 p-3 pl-11 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red text-brand-gray-1 font-semibold"
+                />
+                <Search className="w-4.5 h-4.5 text-brand-gray-3 absolute left-4 top-3.5" />
+              </div>
             </div>
 
             {/* Table Container */}
-            <div className="bg-white border border-brand-gray-4 rounded-xl overflow-hidden shadow-sm">
+            <div className="bg-white border border-brand-gray-4 rounded-2xl overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
                     <tr className="bg-brand-gray-5 border-b border-brand-gray-4 text-brand-gray-2 text-[10px] font-black uppercase tracking-widest">
-                      <th className="py-4 px-6 w-14 text-center">Ikon</th>
                       <th className="py-4 px-6">Judul Artikel &amp; Blog</th>
                       <th className="py-4 px-6 w-36">Kategori</th>
                       <th className="py-4 px-6 w-32">Tanggal</th>
@@ -883,7 +891,6 @@ export default function Admin({
                   <tbody className="divide-y divide-brand-gray-4 text-xs font-medium text-brand-gray-1">
                     {dispArticles.map((a) => (
                       <tr key={a.id} className="hover:bg-brand-red-pale/20 transition-colors">
-                        <td className="py-4 px-6 text-center text-2xl">{a.emoji || '🗞️'}</td>
                         <td className="py-4 px-6">
                           <span className="font-display font-black text-brand-black block text-sm leading-snug line-clamp-1">{a.title}</span>
                           <span className="text-[10px] text-brand-gray-2 block mt-0.5 line-clamp-1">{a.excerpt}</span>
@@ -917,7 +924,7 @@ export default function Admin({
                     ))}
                     {dispArticles.length === 0 && (
                       <tr>
-                        <td colSpan={6} className="py-12 px-6 text-center text-brand-gray-2 italic font-semibold">
+                        <td colSpan={5} className="py-12 px-6 text-center text-brand-gray-2 italic font-semibold">
                           Tidak ada artikel yang cocok dengan pencarian "{articleSearch}".
                         </td>
                       </tr>
@@ -938,7 +945,7 @@ export default function Admin({
           <div className="fixed inset-0 bg-brand-black/75 backdrop-blur-sm transition-opacity" onClick={() => setIsProductFormOpen(false)}></div>
           
           <div className="flex min-h-screen items-center justify-center p-4">
-            <div className="relative transform overflow-hidden rounded-2xl bg-white border border-brand-gray-3 p-6 sm:p-10 text-left shadow-2xl transition-all my-8 max-w-2xl w-full">
+            <div className="relative transform overflow-hidden rounded-3xl bg-white border border-brand-gray-4 p-6 sm:p-8 text-left shadow-[0_24px_90px_-25px_rgba(17,24,39,0.45)] transition-all my-6 max-w-3xl w-full">
               
               <button
                 onClick={() => setIsProductFormOpen(false)}
@@ -951,7 +958,7 @@ export default function Admin({
                 {editingProduct ? 'Edit Unit Alat Survey' : 'Tambah Unit Alat Baru'}
               </h2>
 
-              <form onSubmit={handleSaveProduct} className="space-y-4">
+              <form onSubmit={handleSaveProduct} className="space-y-5">
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
@@ -1014,7 +1021,7 @@ export default function Admin({
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider">Foto Produk (Penimpa Emoji)</label>
+                  <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider">Foto Produk</label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <span className="block text-left text-[10px] font-semibold text-brand-gray-2 mb-1">Opsi A: Tulis Link / URL Gambar</span>
@@ -1127,7 +1134,7 @@ export default function Admin({
           <div className="fixed inset-0 bg-brand-black/75 backdrop-blur-sm transition-opacity" onClick={() => setIsArticleFormOpen(false)}></div>
           
           <div className="flex min-h-screen items-center justify-center p-4">
-            <div className="relative transform overflow-hidden rounded-2xl bg-white border border-brand-gray-3 p-6 sm:p-10 text-left shadow-2xl transition-all my-8 max-w-2xl w-full">
+            <div className="relative transform overflow-hidden rounded-3xl bg-white border border-brand-gray-4 p-6 sm:p-8 text-left shadow-[0_24px_90px_-25px_rgba(17,24,39,0.45)] transition-all my-6 max-w-3xl w-full">
               
               <button
                 onClick={() => setIsArticleFormOpen(false)}
@@ -1140,7 +1147,7 @@ export default function Admin({
                 {editingArticle ? 'Edit Artikel Edukasi' : 'Tulis Artikel Komparasi / Baru'}
               </h2>
 
-              <form onSubmit={handleSaveArticle} className="space-y-4">
+              <form onSubmit={handleSaveArticle} className="space-y-5">
                 
                 <div>
                   <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider mb-1">Judul Utama Berita / Artikel *</label>
@@ -1154,8 +1161,8 @@ export default function Admin({
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                  <div className="sm:col-span-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div className="sm:col-span-1">
                     <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider mb-1">Kategori Artikel</label>
                     <select
                       value={artForm.category}
@@ -1167,16 +1174,6 @@ export default function Admin({
                       <option value="Edukasi">Edukasi Teori</option>
                       <option value="Produk">Ulasan Produk</option>
                     </select>
-                  </div>
-                  <div>
-                    <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider mb-1">Ikon / Emoji</label>
-                    <input 
-                      type="text" 
-                      placeholder="📰"
-                      value={artForm.emoji}
-                      onChange={e => setArtForm({...artForm, emoji: e.target.value})}
-                      className="w-full bg-brand-gray-5 border border-brand-gray-4 p-3 text-xs rounded-lg focus:border-brand-red focus:outline-none focus:ring-1 focus:ring-brand-red font-semibold text-brand-black"
-                    />
                   </div>
                   <div>
                     <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider mb-1">Tanggal Terbit</label>
@@ -1204,7 +1201,7 @@ export default function Admin({
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider">Foto Artikel (Penimpa Emoji)</label>
+                  <label className="block text-left text-[11px] font-black uppercase text-brand-gray-1 tracking-wider">Foto Artikel</label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <span className="block text-left text-[10px] font-semibold text-brand-gray-2 mb-1">Opsi A: Tulis Link / URL Gambar</span>
@@ -1218,7 +1215,7 @@ export default function Admin({
                     </div>
                     <div>
                       <span className="block text-left text-[10px] font-semibold text-brand-gray-2 mb-1">Opsi B: Unggah Berkas dari Perangkat</span>
-                      <div className="relative flex items-center justify-center border border-dashed border-brand-gray-3 hover:border-brand-red rounded-lg p-2 bg-brand-gray-5 h-[46px] transition-colors overflow-hidden">
+                      <div className="relative flex items-center justify-center border border-dashed border-brand-gray-3 hover:border-brand-red rounded-lg p-2 bg-brand-gray-5 h-11.5 transition-colors overflow-hidden">
                         <input 
                           type="file" 
                           accept="image/*"
